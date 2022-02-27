@@ -8,12 +8,19 @@ environment:
 
 dependencies:
   bloc: ^8.0.2
+  cloud_firestore: ^3.1.10
+  marker_repository:
+    path: ./packages/marker_repository
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  firebase_core: ^1.13.1
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
+  equatable: ^2.0.3
+  google_maps_flutter: ^2.1.1
+  google_maps_flutter_web: ^0.3.2+1
 
 dev_dependencies:
   bloc_test: ^9.0.2

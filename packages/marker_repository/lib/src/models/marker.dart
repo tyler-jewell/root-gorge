@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 /// {@template todo}
@@ -16,7 +17,7 @@ class Marker {
   Marker.fromJson(Map<String, Object?> json)
       : this(
           id: json['id']! as String,
-          coordinates: json['coordinates']! as List<List<double>>,
+          coordinates: json['coordinates']! as List<GeoPoint>,
         );
 
   /// The id of the marker
@@ -27,7 +28,7 @@ class Marker {
   /// The coordinates of the marker.
   ///
   /// Cannot be empty.
-  final List<List<double>> coordinates;
+  final List<GeoPoint> coordinates;
 
   /// Converts this [Marker] object into a [Map].
   Map<String, Object?> toJson() {
@@ -40,7 +41,7 @@ class Marker {
   /// Returns a copy of this [Marker].
   Marker copyWith({
     required String id,
-    required List<List<double>> coordinates,
+    required List<GeoPoint> coordinates,
   }) {
     return Marker(
       id: id,

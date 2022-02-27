@@ -5,9 +5,10 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'package:marker_repository/marker_repository.dart';
 import 'package:root_gorge/app/app.dart';
 import 'package:root_gorge/bootstrap.dart';
 
 void main() {
-  bootstrap(() => const App());
+  bootstrap(() => App(markerRepository: MarkerRepository()));
 }
