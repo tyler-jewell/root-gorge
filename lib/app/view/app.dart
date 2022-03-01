@@ -73,60 +73,41 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _Map extends StatefulWidget {
+class _Map extends StatelessWidget {
   const _Map({Key? key}) : super(key: key);
 
   @override
-  State<_Map> createState() => _MapState();
-}
-
-class _MapState extends State<_Map> {
-  Set<Polyline> polylines = {};
-  List<LatLng> polylinePoints = [];
-
-  Set<Polygon> polygons = {};
-  List<LatLng> polygonPoints = [];
-
-  Set<Polygon> _createPolygon() {
-    return {
-      Polygon(
-        polygonId: const PolygonId('2'),
-        consumeTapEvents: true,
-        strokeWidth: 2,
-        fillColor: Colors.grey.withOpacity(0.5),
-        points: polygonPoints,
-      )
-    };
-  }
-
-  Set<Polyline> _createPolyline() {
-    return {
-      Polyline(
-        polylineId: const PolylineId('1'),
-        consumeTapEvents: true,
-        width: 2,
-        points: polylinePoints,
-      ),
-    };
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      myLocationEnabled: true,
-      initialCameraPosition: const CameraPosition(
-        target: LatLng(40.512816339002, -104.95348635954223),
-        zoom: 20,
-      ),
-      polylines: _createPolyline(),
-      polygons: _createPolygon(),
-      onTap: (latLng) {
-        setState(
-          () {
-            polylinePoints.add(latLng);
-            polygonPoints.add(latLng);
-          },
-        );
+    return BlocBuilder<MapBloc, MapState>(
+      builder: (context, state) {
+        if (state is MapLoaded) {
+          print('build map');
+          return GoogleMap(
+            myLocationEnabled: true,
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(40.512816339002, -104.95348635954223),
+              zoom: 20,
+            ),
+            // polylines: state.polylines,
+            polygons: state.polygons,
+            onTap: (latLng) {
+              state.polygons.first.points.add(latLng);
+              final _polygon = Polygon(
+                polygonId: const PolygonId('2'),
+                consumeTapEvents: true,
+                strokeWidth: 2,
+                fillColor: Colors.grey.withOpacity(0.5),
+                points: state.polygons.first.points,
+              );
+              print('adding polygon');
+              context.read<MapBloc>().add(AddPolygon(_polygon));
+            },
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       },
     );
   }

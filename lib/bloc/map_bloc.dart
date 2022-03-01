@@ -12,7 +12,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         super(MapLoading()) {
     on<MapSubscriptionRequested>(_onSubscriptionRequested);
     on<AddPolygon>(_onAddPolygon);
-    on<AddPolygonPoint>(_onAddPolygonPoint);
   }
 
   final MapRepository _mapRepository;
@@ -31,29 +30,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     );
   }
 
-  Future<void> _onAddPolygonPoint(
-    AddPolygonPoint event,
-    Emitter<MapState> emit,
-  ) async {}
-
   Future<void> _onAddPolygon(
     AddPolygon event,
     Emitter<MapState> emit,
   ) async {
-    emit(AddingMap());
-    const _newPoly = Polygon(
-      polygonId: PolygonId('polygon_2'),
-      points: [
-        LatLng(40.513179818875024, -104.95358998656732),
-        LatLng(40.51316359655523, -104.95403594974508),
-        LatLng(40.51317657441137, -104.95359212036244),
-        LatLng(40.513011106557485, -104.95391645721898),
-      ],
-      fillColor: Colors.blue,
-      strokeColor: Colors.blue,
-      strokeWidth: 2,
-    );
-
-    await _mapRepository.addPolygon(_newPoly);
+    await _mapRepository.addPolygon(event.polygon);
   }
 }
