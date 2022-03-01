@@ -5,29 +5,129 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:root_gorge/counter/counter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:root_gorge/bloc/map_bloc.dart';
 import 'package:root_gorge/l10n/l10n.dart';
+import 'package:root_gorge/map_repository.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({Key? key, required this.mapRepository}) : super(key: key);
+
+  final MapRepository mapRepository;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
-        colorScheme: ColorScheme.fromSwatch(
-          accentColor: const Color(0xFF13B9FF),
+    return RepositoryProvider.value(
+      value: mapRepository,
+      child: const AppView(),
+    );
+  }
+}
+
+class AppView extends StatelessWidget {
+  const AppView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => MapBloc(
+        mapRepository: context.read<MapRepository>(),
+      )..add(MapSubscriptionRequested()),
+      child: MaterialApp(
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
+          colorScheme: ColorScheme.fromSwatch(
+            accentColor: const Color(0xFF13B9FF),
+          ),
         ),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: const HomePage(),
       ),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Page'),
+      ),
+      body: const Padding(
+        padding: EdgeInsets.all(8),
+        child: _Map(),
+      ),
+    );
+  }
+}
+
+class _Map extends StatefulWidget {
+  const _Map({Key? key}) : super(key: key);
+
+  @override
+  State<_Map> createState() => _MapState();
+}
+
+class _MapState extends State<_Map> {
+  Set<Polyline> polylines = {};
+  List<LatLng> polylinePoints = [];
+
+  Set<Polygon> polygons = {};
+  List<LatLng> polygonPoints = [];
+
+  Set<Polygon> _createPolygon() {
+    return {
+      Polygon(
+        polygonId: const PolygonId('2'),
+        consumeTapEvents: true,
+        strokeWidth: 2,
+        fillColor: Colors.grey.withOpacity(0.5),
+        points: polygonPoints,
+      )
+    };
+  }
+
+  Set<Polyline> _createPolyline() {
+    return {
+      Polyline(
+        polylineId: const PolylineId('1'),
+        consumeTapEvents: true,
+        width: 2,
+        points: polylinePoints,
+      ),
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GoogleMap(
+      myLocationEnabled: true,
+      initialCameraPosition: const CameraPosition(
+        target: LatLng(40.512816339002, -104.95348635954223),
+        zoom: 20,
+      ),
+      polylines: _createPolyline(),
+      polygons: _createPolygon(),
+      onTap: (latLng) {
+        setState(
+          () {
+            polylinePoints.add(latLng);
+            polygonPoints.add(latLng);
+          },
+        );
+      },
     );
   }
 }

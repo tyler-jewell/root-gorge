@@ -7,7 +7,12 @@
 
 import 'package:root_gorge/app/app.dart';
 import 'package:root_gorge/bootstrap.dart';
+import 'package:root_gorge/local_map_api.dart';
+import 'package:root_gorge/map_repository.dart';
 
 void main() {
-  bootstrap(() => const App());
+  final localMapApi = LocalMapApi();
+  final mapRepository = MapRepository(localMapApi: localMapApi);
+
+  bootstrap(() => App(mapRepository: mapRepository));
 }
