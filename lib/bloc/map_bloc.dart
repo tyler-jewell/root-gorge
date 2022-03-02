@@ -9,7 +9,7 @@ part 'map_state.dart';
 class MapBloc extends Bloc<MapEvent, MapState> {
   MapBloc({required MapRepository mapRepository})
       : _mapRepository = mapRepository,
-        super(MapLoading()) {
+        super(MapInitial()) {
     on<MapSubscriptionRequested>(_onSubscriptionRequested);
     on<AddPolygon>(_onAddPolygon);
   }
@@ -20,8 +20,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     MapSubscriptionRequested event,
     Emitter<MapState> emit,
   ) async {
-    emit(MapLoading());
-
     await Future.delayed(const Duration(seconds: 1), () {});
 
     await emit.forEach<Set<Polygon>>(

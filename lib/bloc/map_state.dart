@@ -3,9 +3,9 @@ part of 'map_bloc.dart';
 @immutable
 abstract class MapState {}
 
-class MapLoading extends MapState {
+class MapInitial extends MapState {
   @override
-  String toString() => 'MapLoading';
+  String toString() => 'MapInitial';
 }
 
 class MapLoaded extends MapState {
