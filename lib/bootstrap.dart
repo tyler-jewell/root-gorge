@@ -37,6 +37,6 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
         blocObserver: AppBlocObserver(),
       );
     },
-    (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
+    (error, stackTrace) => log(stackTrace.toString()),
   );
 }

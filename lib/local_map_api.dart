@@ -2,15 +2,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/subjects.dart';
 
 class LocalMapApi {
-  final _mapStreamController = BehaviorSubject<Set<Polygon>>.seeded({});
+  final _mapStreamController = BehaviorSubject<Set<Polygon>>.seeded(
+    {
+      const Polygon(polygonId: PolygonId('1')),
+    },
+  );
 
   Stream<Set<Polygon>> getPolygons() =>
       _mapStreamController.asBroadcastStream();
 
   Future<void> addPolygon(Polygon newPoly) async {
-    final polygons = {..._mapStreamController.value};
+    print('newPoly: ${newPoly.points}');
+    final polygons = {..._mapStreamController.value}..add(newPoly);
 
-    _mapStreamController.add(polygons..add(newPoly));
+    _mapStreamController.add(polygons);
 
     return;
   }

@@ -91,13 +91,17 @@ class _Map extends StatelessWidget {
             // polylines: state.polylines,
             polygons: state.polygons,
             onTap: (latLng) {
+              print('${state.polygons.first.points}');
+
+              final _newPoints = [...state.polygons.first.points, latLng];
+              print('$_newPoints');
               state.polygons.first.points.add(latLng);
               final _polygon = Polygon(
                 polygonId: const PolygonId('2'),
                 consumeTapEvents: true,
                 strokeWidth: 2,
                 fillColor: Colors.grey.withOpacity(0.5),
-                points: state.polygons.first.points,
+                points: _newPoints,
               );
               print('adding polygon');
               context.read<MapBloc>().add(AddPolygon(_polygon));
