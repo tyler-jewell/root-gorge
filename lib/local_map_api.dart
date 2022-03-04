@@ -11,8 +11,17 @@ class LocalMapApi {
   Stream<Set<Polygon>> getPolygons() =>
       _mapStreamController.asBroadcastStream();
 
-  Future<void> addPolygon(Polygon newPoly) async {
-    print('newPoly: ${newPoly.points}');
+  Future<void> addPolygon() async {
+    final newPoly = Polygon(
+      polygonId: const PolygonId("polygon-a"),
+      points: <LatLng>{
+        const LatLng(37.4219999, -122.0862462),
+        const LatLng(37.4220099, -122.0862462),
+        const LatLng(37.4220099, -122.0862462),
+        const LatLng(37.4219999, -122.0862462),
+      },
+      }
+    );
     final polygons = {..._mapStreamController.value}..add(newPoly);
 
     _mapStreamController.add(polygons);
@@ -20,17 +29,3 @@ class LocalMapApi {
     return;
   }
 }
-
-
-//  const Polygon(
-//         polygonId: PolygonId('polygon_1'),
-//         points: [
-//           LatLng(40.5129092580498, -104.95368238186099),
-//           LatLng(40.51304249351129, -104.95346169652385),
-//           LatLng(40.512833593348894, -104.95321288462415),
-//           LatLng(40.51269706769424, -104.95337082609092),
-//         ],
-//         fillColor: Colors.green,
-//         strokeColor: Colors.green,
-//         strokeWidth: 2,
-//       )

@@ -11,7 +11,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       : _mapRepository = mapRepository,
         super(MapInitial()) {
     on<MapSubscriptionRequested>(_onSubscriptionRequested);
-    on<AddPolygon>(_onAddPolygon);
+    on<AddFieldButtonClicked>(_onAddFieldButtonClicked);
+    on<CompleteAddField>(_onCompleteAddField);
   }
 
   final MapRepository _mapRepository;
@@ -28,10 +29,21 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     );
   }
 
-  Future<void> _onAddPolygon(
-    AddPolygon event,
+  Future<void> _onAddFieldButtonClicked(
+    AddFieldButtonClicked event,
     Emitter<MapState> emit,
   ) async {
-    await _mapRepository.addPolygon(event.polygon);
+    emit(
+      AddingField(polygons: {const Polygon(polygonId: PolygonId('polygon-a'))}),
+    );
+  }
+
+  Future<void> _onCompleteAddField(
+    CompleteAddField event,
+    Emitter<MapState> emit,
+  ) async {
+    emit(
+      MapLoaded(polygons: {const Polygon(polygonId: PolygonId('polygon-a'))}),
+    );
   }
 }

@@ -19,13 +19,13 @@ class MapLoaded extends MapState {
   String toString() => 'MapLoaded';
 }
 
-class AddingPolygon extends MapState {
-  AddingPolygon({
-    required this.polygon,
+class AddingField extends MapState {
+  AddingField({
+    required this.polygons,
   });
 
-  final Polygon polygon;
+  final Set<Polygon> polygons;
 
   @override
-  String toString() => 'AddingMap';
+  String toString() => 'AddingField';
 }
