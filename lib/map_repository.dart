@@ -9,5 +9,5 @@ class MapRepository {
 
   Stream<Set<Polygon>> getPolygons() => _localMapApi.getPolygons();
 
-  Future<void> addPolygon(Polygon newPoly) => _localMapApi.addPolygon(newPoly);
+  Future<void> addPolygon(Polygon newPoly) => _localMapApi.addPolygon();
 }

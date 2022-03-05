@@ -9,7 +9,10 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:fields_api/fields_api.dart';
+import 'package:fields_repository/fields_repository.dart';
 import 'package:flutter/widgets.dart';
+import 'package:root_gorge/app/app.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
@@ -25,18 +28,22 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
+void bootstrap({required FieldsApi fieldsApi}) {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
-  await runZonedGuarded(
+  final fieldsRepository = FieldsRepository(fieldsApi: fieldsApi);
+
+  runZonedGuarded(
     () async {
       await BlocOverrides.runZoned(
-        () async => runApp(await builder()),
+        () async => runApp(
+          App(fieldsRepository: fieldsRepository),
+        ),
         blocObserver: AppBlocObserver(),
       );
     },
-    (error, stackTrace) => log(stackTrace.toString()),
+    (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
 }
