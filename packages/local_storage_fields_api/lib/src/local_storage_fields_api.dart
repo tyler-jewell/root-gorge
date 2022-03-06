@@ -29,6 +29,7 @@ class LocalStorageFieldsApi extends FieldsApi {
   static const kFieldsCollectionKey = '__fields_collection_key__';
 
   String? _getValue(String key) => _plugin.getString(key);
+
   Future<void> _setValue(String key, String value) =>
       _plugin.setString(key, value);
 

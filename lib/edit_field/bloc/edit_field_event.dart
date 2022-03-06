@@ -14,6 +14,9 @@ class EditFieldMapPointsChanged extends EditFieldEvent {
 
   @override
   List<Object> get props => [mapPoints];
+
+  @override
+  String toString() => 'EditFieldMapPointsChanged';
 }
 
 class EditFieldBeanTypeChanged extends EditFieldEvent {
@@ -23,13 +26,12 @@ class EditFieldBeanTypeChanged extends EditFieldEvent {
 
   @override
   List<Object> get props => [beanType];
+
+  @override
+  String toString() => 'EditFieldBeanTypeChanged';
 }
 
 class EditFieldSubmitted extends EditFieldEvent {
-  // const EditFieldSubmitted(this.field);
-
-  // final Field field;
-
-  // @override
-  // List<Object> get props => [field];
+  @override
+  String toString() => 'EditFieldSubmitted';
 }

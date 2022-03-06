@@ -38,7 +38,7 @@ class FieldsOverviewView extends StatelessWidget {
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
                     const SnackBar(
-                      content: Text('Error!'),
+                      content: Text('Error loading fields!'),
                     ),
                   );
               }
@@ -47,32 +47,30 @@ class FieldsOverviewView extends StatelessWidget {
         ],
         child: BlocBuilder<FieldsOverviewBloc, FieldsOverviewState>(
           builder: (context, state) {
-            if (state.fields.isEmpty) {
-              if (state.status == FieldsOverviewStatus.loading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state.status != FieldsOverviewStatus.success) {
-                return const SizedBox();
-              } else {
-                return Center(
-                  child: Text(
-                    'No fields found',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                );
-              }
+            if (state.status == FieldsOverviewStatus.loading) {
+              return const Center(child: CircularProgressIndicator());
             } else {
-              return Stack(
-                children: [
-                  const GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                      zoom: 16,
-                      target: LatLng(40.51280238950735, -104.95310938820711),
-                    ),
-                  ),
-                  Center(
-                    child: Text('Number fields: ${state.fields.length}'),
-                  ),
-                ],
+              return GoogleMap(
+                initialCameraPosition: const CameraPosition(
+                  zoom: 16,
+                  target: LatLng(40.51280238950735, -104.95310938820711),
+                ),
+                polygons: state.fields.map(
+                  (field) {
+                    return Polygon(
+                      polygonId: PolygonId(field.id),
+                      consumeTapEvents: true,
+                      fillColor: Colors.green,
+                      strokeColor: Colors.green,
+                      strokeWidth: 1,
+                      points: field.mapPoints
+                          .map(
+                            (point) => LatLng(point.latitude, point.longitude),
+                          )
+                          .toList(),
+                    );
+                  },
+                ).toSet(),
               );
             }
           },

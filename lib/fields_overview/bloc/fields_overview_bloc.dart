@@ -12,8 +12,6 @@ class FieldsOverviewBloc
   })  : _fieldsRepository = fieldsRepository,
         super(const FieldsOverviewState()) {
     on<FieldsOverviewSubscriptionRequested>(_onSubscriptionRequested);
-    on<FieldsOverviewFieldSaved>(_onFieldSaved);
-    on<FieldsOverviewFieldDeleted>(_onFieldDeleted);
   }
 
   final FieldsRepository _fieldsRepository;
@@ -34,19 +32,5 @@ class FieldsOverviewBloc
         status: () => FieldsOverviewStatus.failure,
       ),
     );
-  }
-
-  Future<void> _onFieldSaved(
-    FieldsOverviewFieldSaved event,
-    Emitter<FieldsOverviewState> emit,
-  ) async {
-    await _fieldsRepository.saveField(event.field);
-  }
-
-  Future<void> _onFieldDeleted(
-    FieldsOverviewFieldDeleted event,
-    Emitter<FieldsOverviewState> emit,
-  ) async {
-    await _fieldsRepository.deleteField(event.field.id);
   }
 }

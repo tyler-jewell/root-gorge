@@ -9,14 +9,8 @@ part 'edit_field_state.dart';
 class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
   EditFieldBloc({
     required FieldsRepository fieldsRepository,
-    required Field? initialField,
   })  : _fieldsRepository = fieldsRepository,
-        super(
-          EditFieldState(
-            initialField: initialField,
-            mapPoints: initialField?.mapPoints ?? <MarkerLatLng>[],
-          ),
-        ) {
+        super(const EditFieldState()) {
     on<EditFieldMapPointsChanged>(_onMapPointsChanged);
     on<EditFieldBeanTypeChanged>(_onBeanTypeChanged);
     on<EditFieldSubmitted>(_onSubmitted);
@@ -44,8 +38,10 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
   ) async {
     emit(state.copyWith(status: EditFieldStatus.loading));
 
+    final field = Field(mapPoints: state.mapPoints, beanType: state.beanType);
+
     try {
-      await _fieldsRepository.saveField(event.field);
+      await _fieldsRepository.saveField(field);
       emit(state.copyWith(status: EditFieldStatus.success));
     } catch (e) {
       emit(state.copyWith(status: EditFieldStatus.failure));

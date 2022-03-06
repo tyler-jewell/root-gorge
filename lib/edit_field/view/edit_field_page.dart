@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:fields_api/fields_api.dart';
 import 'package:fields_repository/fields_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:root_gorge/edit_field/bloc/edit_field_bloc.dart';
 import 'package:root_gorge/edit_field/edit_field.dart';
 
 class EditFieldPage extends StatelessWidget {
@@ -16,7 +15,6 @@ class EditFieldPage extends StatelessWidget {
       builder: (context) => BlocProvider(
         create: (context) => EditFieldBloc(
           fieldsRepository: context.read<FieldsRepository>(),
-          initialField: initialField,
         ),
         child: const EditFieldPage(),
       ),
@@ -41,18 +39,16 @@ class EditFieldView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final status = context.select((EditFieldBloc bloc) => bloc.state.status);
-    final state = context.watch<EditFieldBloc>().state;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Field'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: status.isLoadingOrSuccess
+        onPressed: status == EditFieldStatus.success
             ? null
-            : () =>
-                context.read<EditFieldBloc>().add(const EditFieldSubmitted()),
-        child: status.isLoadingOrSuccess
+            : () => context.read<EditFieldBloc>().add(EditFieldSubmitted()),
+        child: status == EditFieldStatus.loading
             ? const Center(child: CircularProgressIndicator())
             : const Icon(Icons.check_rounded),
       ),
@@ -69,14 +65,17 @@ class _GoogleMap extends StatelessWidget {
     final state = context.watch<EditFieldBloc>().state;
 
     return GoogleMap(
-      onTap: (latLng) => context.read<EditFieldBloc>().add(
-            EditFieldMapPointsChanged(
-              [
-                ...state.mapPoints,
-                MarkerLatLng(latLng.latitude, latLng.longitude)
-              ],
-            ),
-          ),
+      onTap: (latLng) {
+        print('latLng: $latLng');
+        context.read<EditFieldBloc>().add(
+              EditFieldMapPointsChanged(
+                [
+                  ...state.mapPoints,
+                  MarkerLatLng(latLng.latitude, latLng.longitude)
+                ],
+              ),
+            );
+      },
       initialCameraPosition: const CameraPosition(
         zoom: 16,
         target: LatLng(40.51280238950735, -104.95310938820711),
