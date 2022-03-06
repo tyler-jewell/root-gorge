@@ -44,12 +44,8 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
   ) async {
     emit(state.copyWith(status: EditFieldStatus.loading));
 
-    final field = Field(mapPoints: state.mapPoints).copyWith(
-      beanType: state.beanType,
-    );
-
     try {
-      await _fieldsRepository.saveField(field);
+      await _fieldsRepository.saveField(event.field);
       emit(state.copyWith(status: EditFieldStatus.success));
     } catch (e) {
       emit(state.copyWith(status: EditFieldStatus.failure));

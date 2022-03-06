@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fields_api/fields_api.dart';
 import 'package:fields_repository/fields_repository.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +41,7 @@ class EditFieldView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final status = context.select((EditFieldBloc bloc) => bloc.state.status);
+    final state = context.watch<EditFieldBloc>().state;
 
     return Scaffold(
       appBar: AppBar(
@@ -64,6 +67,7 @@ class _GoogleMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<EditFieldBloc>().state;
+
     return GoogleMap(
       onTap: (latLng) => context.read<EditFieldBloc>().add(
             EditFieldMapPointsChanged(
@@ -77,6 +81,19 @@ class _GoogleMap extends StatelessWidget {
         zoom: 16,
         target: LatLng(40.51280238950735, -104.95310938820711),
       ),
+      polygons: {
+        Polygon(
+          points: [
+            ...state.mapPoints.map(
+              (point) => LatLng(point.latitude, point.longitude),
+            ),
+          ],
+          strokeColor: Colors.red,
+          strokeWidth: 2,
+          fillColor: Colors.red.withOpacity(0.5),
+          polygonId: const PolygonId('A'),
+        )
+      },
     );
   }
 }

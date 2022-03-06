@@ -26,5 +26,10 @@ class EditFieldBeanTypeChanged extends EditFieldEvent {
 }
 
 class EditFieldSubmitted extends EditFieldEvent {
-  const EditFieldSubmitted();
+  // const EditFieldSubmitted(this.field);
+
+  // final Field field;
+
+  // @override
+  // List<Object> get props => [field];
 }
