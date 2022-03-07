@@ -7,7 +7,7 @@ environment:
   sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
-  bloc: ^8.0.2
+  bloc: ^8.0.3
   fields_api:
     path: packages/fields_api
   fields_repository:
@@ -26,7 +26,7 @@ dependencies:
   rxdart: ^0.27.3
 
 dev_dependencies:
-  bloc_test: ^9.0.2
+  bloc_test: ^9.0.3
   flutter_test:
     sdk: flutter
   mockingjay: ^0.2.0
