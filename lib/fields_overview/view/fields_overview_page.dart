@@ -1,8 +1,8 @@
 import 'package:fields_repository/fields_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:root_gorge/fields_overview/fields_overview.dart';
+import 'package:root_gorge/home/widgets/fields_map.dart';
 
 class FieldsOverviewPage extends StatelessWidget {
   const FieldsOverviewPage({Key? key}) : super(key: key);
@@ -50,27 +50,9 @@ class FieldsOverviewView extends StatelessWidget {
             if (state.status == FieldsOverviewStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             } else {
-              return GoogleMap(
-                initialCameraPosition: const CameraPosition(
-                  zoom: 16,
-                  target: LatLng(40.51280238950735, -104.95310938820711),
-                ),
-                polygons: state.fields.map(
-                  (field) {
-                    return Polygon(
-                      polygonId: PolygonId(field.id),
-                      consumeTapEvents: true,
-                      fillColor: Colors.green,
-                      strokeColor: Colors.green,
-                      strokeWidth: 1,
-                      points: field.mapPoints
-                          .map(
-                            (point) => LatLng(point.latitude, point.longitude),
-                          )
-                          .toList(),
-                    );
-                  },
-                ).toSet(),
+              return FieldsMap(
+                fields: state.fields,
+                onTap: (latLng) {},
               );
             }
           },

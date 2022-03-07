@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:root_gorge/edit_field/bloc/edit_field_bloc.dart';
 import 'package:root_gorge/edit_field/edit_field.dart';
+import 'package:root_gorge/home/widgets/fields_map.dart';
 
 class EditFieldPage extends StatelessWidget {
   const EditFieldPage({Key? key}) : super(key: key);
@@ -39,6 +40,7 @@ class EditFieldView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final status = context.select((EditFieldBloc bloc) => bloc.state.status);
+    final state = context.watch<EditFieldBloc>().state;
 
     return Scaffold(
       appBar: AppBar(
@@ -52,47 +54,26 @@ class EditFieldView extends StatelessWidget {
             ? const Center(child: CircularProgressIndicator())
             : const Icon(Icons.check_rounded),
       ),
-      body: const _GoogleMap(),
+      body: FieldsMap(
+        onTap: (latLng) => _handleTap(latLng, context.read<EditFieldBloc>()),
+        fields: [
+          Field(
+            mapPoints: state.mapPoints,
+            beanType: state.beanType,
+          )
+        ],
+      ),
     );
   }
 }
 
-class _GoogleMap extends StatelessWidget {
-  const _GoogleMap({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final state = context.watch<EditFieldBloc>().state;
-
-    return GoogleMap(
-      onTap: (latLng) {
-        print('latLng: $latLng');
-        context.read<EditFieldBloc>().add(
-              EditFieldMapPointsChanged(
-                [
-                  ...state.mapPoints,
-                  MarkerLatLng(latLng.latitude, latLng.longitude)
-                ],
-              ),
-            );
-      },
-      initialCameraPosition: const CameraPosition(
-        zoom: 16,
-        target: LatLng(40.51280238950735, -104.95310938820711),
-      ),
-      polygons: {
-        Polygon(
-          points: [
-            ...state.mapPoints.map(
-              (point) => LatLng(point.latitude, point.longitude),
-            ),
-          ],
-          strokeColor: Colors.red,
-          strokeWidth: 2,
-          fillColor: Colors.red.withOpacity(0.5),
-          polygonId: const PolygonId('A'),
-        )
-      },
-    );
-  }
+void _handleTap(LatLng latLng, EditFieldBloc bloc) {
+  bloc.add(
+    EditFieldMapPointsChanged(
+      [
+        ...bloc.state.mapPoints,
+        MarkerLatLng(latLng.latitude, latLng.longitude)
+      ],
+    ),
+  );
 }
