@@ -1,0 +1,21 @@
+name: field_google_map
+description: Field Google Map
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  google_maps_flutter: ^2.1.1 
+  google_maps_flutter_web: ^0.3.2+1
+  fields_api: 
+    path: ../fields_api
+  flutter:
+    sdk: flutter
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^2.4.0

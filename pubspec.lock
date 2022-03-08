@@ -141,6 +141,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.2"
+  field_google_map:
+    dependency: "direct main"
+    description:
+      path: "packages/field_google_map"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   fields_api:
     dependency: "direct main"
     description:

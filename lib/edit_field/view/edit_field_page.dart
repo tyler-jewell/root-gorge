@@ -1,11 +1,12 @@
+import 'dart:developer';
+
+import 'package:field_google_map/field_google_map.dart';
 import 'package:fields_api/fields_api.dart';
 import 'package:fields_repository/fields_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:root_gorge/edit_field/bloc/edit_field_bloc.dart';
 import 'package:root_gorge/edit_field/edit_field.dart';
-import 'package:root_gorge/home/widgets/fields_map.dart';
 
 class EditFieldPage extends StatelessWidget {
   const EditFieldPage({Key? key}) : super(key: key);
@@ -54,8 +55,18 @@ class EditFieldView extends StatelessWidget {
             ? const Center(child: CircularProgressIndicator())
             : const Icon(Icons.check_rounded),
       ),
-      body: FieldsMap(
-        onTap: (latLng) => _handleTap(latLng, context.read<EditFieldBloc>()),
+      body: FieldGoogleMap(
+        onTap: (latLng) {
+          log('tapped!!!!');
+          context.read<EditFieldBloc>().add(
+                EditFieldMapPointsChanged(
+                  [
+                    ...state.mapPoints,
+                    MarkerLatLng(latLng.latitude, latLng.longitude)
+                  ],
+                ),
+              );
+        },
         fields: [
           Field(
             mapPoints: state.mapPoints,
@@ -65,15 +76,4 @@ class EditFieldView extends StatelessWidget {
       ),
     );
   }
-}
-
-void _handleTap(LatLng latLng, EditFieldBloc bloc) {
-  bloc.add(
-    EditFieldMapPointsChanged(
-      [
-        ...bloc.state.mapPoints,
-        MarkerLatLng(latLng.latitude, latLng.longitude)
-      ],
-    ),
-  );
 }

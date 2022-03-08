@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   bloc: ^8.0.3
+  field_google_map:
+    path: packages/field_google_map
   fields_api:
     path: packages/fields_api
   fields_repository:

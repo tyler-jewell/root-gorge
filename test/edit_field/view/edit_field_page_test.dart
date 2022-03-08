@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:field_google_map/field_google_map.dart';
 import 'package:fields_api/fields_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,6 +46,23 @@ void main() {
         ),
       );
     }
+
+    group('FieldGoogleMap', () {
+      testWidgets('adds map point when tapped', (tester) async {
+        await tester.pumpRoute(EditFieldPage.route());
+        expect(find.byType(EditFieldPage), findsOneWidget);
+
+        await tester.tap(find.byType(FieldGoogleMap));
+
+        verify(
+          () => editFieldBloc.add(
+            const EditFieldMapPointsChanged([
+              MarkerLatLng(1.23, 4.56),
+            ]),
+          ),
+        ).called(1);
+      });
+    });
 
     group('route', () {
       testWidgets('renders EditFieldPage', (tester) async {
@@ -97,19 +115,20 @@ void main() {
         'adds EditFieldMapPointsChanged '
         'to EditFieldBloc '
         'when tapped', (tester) async {
+      await tester.pumpRoute(EditFieldPage.route());
       await tester.pumpApp(buildSubject());
 
-      expect(find.byType(GoogleMap), findsOneWidget);
+      expect(find.byType(FieldGoogleMap), findsOneWidget);
 
-      // await tester.tap(find.byKey(const Key('edit_field_google_map')));
+      await tester.tap(find.byType(FieldGoogleMap));
 
-      // verifyNever(
-      //   () => editFieldBloc.add(
-      //     const EditFieldMapPointsChanged(
-      //       [MarkerLatLng(40.51280238950735, -104.95310938820711)],
-      //     ),
-      //   ),
-      // ).called(1);
+      verify(
+        () => editFieldBloc.add(
+          const EditFieldMapPointsChanged([
+            MarkerLatLng(1.23, 4.56),
+          ]),
+        ),
+      ).called(1);
     });
   });
 }

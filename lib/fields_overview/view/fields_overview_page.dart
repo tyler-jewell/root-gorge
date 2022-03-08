@@ -1,8 +1,8 @@
+import 'package:field_google_map/field_google_map.dart';
 import 'package:fields_repository/fields_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:root_gorge/fields_overview/fields_overview.dart';
-import 'package:root_gorge/home/widgets/fields_map.dart';
 
 class FieldsOverviewPage extends StatelessWidget {
   const FieldsOverviewPage({Key? key}) : super(key: key);
@@ -50,7 +50,7 @@ class FieldsOverviewView extends StatelessWidget {
             if (state.status == FieldsOverviewStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             } else {
-              return FieldsMap(
+              return FieldGoogleMap(
                 fields: state.fields,
                 onTap: (latLng) {},
               );
