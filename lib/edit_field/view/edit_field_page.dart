@@ -56,16 +56,16 @@ class EditFieldView extends StatelessWidget {
             : const Icon(Icons.check_rounded),
       ),
       body: FieldGoogleMap(
+        key: const Key('edit-field-page-field-map'),
         onTap: (latLng) {
-          log('tapped!!!!');
-          context.read<EditFieldBloc>().add(
-                EditFieldMapPointsChanged(
-                  [
-                    ...state.mapPoints,
-                    MarkerLatLng(latLng.latitude, latLng.longitude)
-                  ],
-                ),
-              );
+          final mapPoints = [
+            ...state.mapPoints,
+            MarkerLatLng(latLng.latitude, latLng.longitude)
+          ];
+          log('map poiny: $mapPoints');
+          context
+              .read<EditFieldBloc>()
+              .add(EditFieldMapPointsChanged(mapPoints));
         },
         fields: [
           Field(

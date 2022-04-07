@@ -14,12 +14,16 @@ dependencies:
     path: packages/fields_api
   fields_repository:
     path: packages/fields_repository
+  firebase_core: ^1.14.0
+  firestore_fields_api:
+    path: packages/firestore_fields_api
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
   flutter_services_binding: ^0.1.0
+  google_maps: ^5.2.0
   google_maps_flutter: ^2.1.1
   google_maps_flutter_web: ^0.3.2+1
   intl: ^0.17.0
@@ -34,7 +38,7 @@ dev_dependencies:
   mockingjay: ^0.2.0
   mocktail: ^0.2.0
   very_good_analysis: ^2.4.0
-  
+
 flutter:
   uses-material-design: true
   generate: true

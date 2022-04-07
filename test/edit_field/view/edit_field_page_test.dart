@@ -4,9 +4,9 @@ import 'package:fields_api/fields_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:root_gorge/edit_field/edit_field.dart';
+import 'package:google_maps/google_maps.dart' as gmaps;
 
 import '../../helpers/helpers.dart';
 
@@ -47,22 +47,48 @@ void main() {
       );
     }
 
-    group('FieldGoogleMap', () {
-      testWidgets('adds map point when tapped', (tester) async {
-        await tester.pumpRoute(EditFieldPage.route());
-        expect(find.byType(EditFieldPage), findsOneWidget);
+    testWidgets('adds item to the cart', (tester) async {
+      when(() => editFieldBloc.state).thenReturn(const EditFieldState());
 
-        await tester.tap(find.byType(FieldGoogleMap));
-
-        verify(
-          () => editFieldBloc.add(
-            const EditFieldMapPointsChanged([
-              MarkerLatLng(1.23, 4.56),
-            ]),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: BlocProvider.value(
+            value: editFieldBloc,
+            child: const EditFieldView(),
           ),
-        ).called(1);
-      });
+        ),
+      );
+
+      await tester.tap(find.byKey(const Key('edit-field-page-field-map')));
+
+      await tester.pumpAndSettle();
+
+      expect(editFieldBloc.state.mapPoints.length, 3);
     });
+
+    // testWidgets('tapping increment button invokes increment', (tester) async {
+    //   when(() => editFieldBloc.state).thenReturn(
+    //     const EditFieldState(mapPoints: [MarkerLatLng(1.23, 23.4)]),
+    //   );
+
+    //   when(() => EditFieldMapPointsChanged).thenReturn(
+    //     EditFieldState(
+    //       mapPoints: [MarkerLatLng(1.23, 23.4)],
+    //       beanType: 'bean type 1',
+    //     ),
+    //   );
+
+    //   await tester.pumpWidget(
+    //     MaterialApp(
+    //       home: BlocProvider.value(
+    //         value: editFieldBloc,
+    //         child: const EditFieldView(),
+    //       ),
+    //     ),
+    //   );
+    //   await tester.tap(find.byKey(const Key('edit-field-page-field-map')));
+    //   verify(() => EditFieldMapPointsChanged).called(1);
+    // });
 
     group('route', () {
       testWidgets('renders EditFieldPage', (tester) async {
@@ -110,25 +136,5 @@ void main() {
         ),
       );
     }
-
-    testWidgets(
-        'adds EditFieldMapPointsChanged '
-        'to EditFieldBloc '
-        'when tapped', (tester) async {
-      await tester.pumpRoute(EditFieldPage.route());
-      await tester.pumpApp(buildSubject());
-
-      expect(find.byType(FieldGoogleMap), findsOneWidget);
-
-      await tester.tap(find.byType(FieldGoogleMap));
-
-      verify(
-        () => editFieldBloc.add(
-          const EditFieldMapPointsChanged([
-            MarkerLatLng(1.23, 4.56),
-          ]),
-        ),
-      ).called(1);
-    });
   });
 }

@@ -23,7 +23,7 @@ class FieldGoogleMap extends StatelessWidget {
       onTap: onTap,
       initialCameraPosition: const CameraPosition(
         zoom: 16,
-        target: LatLng(40.51280238950735, -104.95310938820711),
+        target: LatLng(41.51280238950735, -104.95310938820711),
       ),
       polygons: _buildPolygons(fields),
     );

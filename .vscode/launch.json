@@ -21,14 +21,52 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main_staging.dart",
-      "args": ["--flavor", "staging", "--target", "lib/main_staging.dart"]
+      "args": [
+        "--flavor",
+        "staging",
+        "--target",
+        "lib/main_staging.dart"
+      ]
     },
     {
       "name": "Launch production",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_production.dart",
-      "args": ["--flavor", "production", "--target", "lib/main_production.dart"]
-    }
+      "args": [
+        "--flavor",
+        "production",
+        "--target",
+        "lib/main_production.dart"
+      ]
+    },
+    {
+      "name": "iPhone development",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_development.dart",
+      "args": [
+        "-d",
+        "00008110-000E7D5E0133801E",
+        "--flavor",
+        "development",
+        "--target",
+        "lib/main_development.dart"
+      ]
+    },
+    {
+      "name": "Web development",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_development.dart",
+      "args": [
+        "-d",
+        "chrome",
+        "--flavor",
+        "development",
+        "--target",
+        "lib/main_development.dart"
+      ]
+    },
   ]
 }
