@@ -12,7 +12,11 @@ class FieldsOverviewPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => FieldsOverviewBloc(
         fieldsRepository: context.read<FieldsRepository>(),
-      )..add(const FieldsOverviewSubscriptionRequested()),
+      )
+        ..add(const FieldsOverviewSubscriptionRequested())
+        ..add(
+          const UserLocationRequested(),
+        ),
       child: const FieldsOverviewView(),
     );
   }
@@ -51,6 +55,7 @@ class FieldsOverviewView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else {
               return FieldGoogleMap(
+                currentLocation: state.currentLocation,
                 fields: state.fields,
                 onTap: (latLng) {},
               );

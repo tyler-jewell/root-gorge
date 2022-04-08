@@ -12,14 +12,14 @@ void main() {
         beanType: 'bean type 1',
       )
     ];
-    test('can be instantiated', () {
-      expect(
-        FieldGoogleMap(
-          fields: mockFields,
-          onTap: (_) {},
-        ),
-        isNotNull,
-      );
-    });
+    // test('can be instantiated', () {
+    //   expect(
+    //       FieldGoogleMap(
+    //         fields: mockFields,
+    //         onTap: (_) {},
+    //       ),
+    //       isNotNull,
+    //       );
+    // });
   });
 }
