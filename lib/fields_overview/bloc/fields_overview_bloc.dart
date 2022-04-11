@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fields_repository/fields_repository.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 part 'fields_overview_event.dart';
 part 'fields_overview_state.dart';
@@ -36,23 +34,23 @@ class FieldsOverviewBloc
       ),
     );
   }
+}
 
-  Future<void> _onUserLocationRequested(
-    UserLocationRequested event,
-    Emitter<FieldsOverviewState> emit,
-  ) async {
-    emit(state.copyWith(status: () => FieldsOverviewStatus.loading));
+Future<void> _onUserLocationRequested(
+  UserLocationRequested event,
+  Emitter<CurrentLocationState> emit,
+) async {
+  emit(state.copyWith(status: () => CurrenLocationStatus.loading));
 
-    final currentLocation = await Location().getLocation();
+  final currentLocation = await Location().getLocation();
 
-    final _userLatLng =
-        LatLng(currentLocation.latitude!, currentLocation.longitude!);
-
-    emit(
-      state.copyWith(
-        status: () => FieldsOverviewStatus.success,
-        currentLocation: _userLatLng,
+  emit(
+    state.copyWith(
+      status: () => CurrenLocationStatus.success,
+      currentLocation: LatLng(
+        currentLocation.latitude!,
+        currentLocation.longitude!,
       ),
-    );
-  }
+    ),
+  );
 }

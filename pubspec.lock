@@ -344,7 +344,7 @@ packages:
     source: hosted
     version: "0.7.4"
   location:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: location
       url: "https://pub.dartlang.org"

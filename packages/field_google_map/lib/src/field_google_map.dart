@@ -9,7 +9,7 @@ class FieldGoogleMap extends StatelessWidget {
     Key? key,
     required this.fields,
     required this.onTap,
-    this.currentLocation,
+    required this.center,
   }) : super(key: key);
 
   /// The [Field]s to display on the map.
@@ -18,17 +18,18 @@ class FieldGoogleMap extends StatelessWidget {
   /// Called when the mapt is tapped.
   final void Function(LatLng) onTap;
 
-  /// The current location of the user.
-  /// Used to center the map on the user's location.
-  final LatLng? currentLocation;
+  /// The [center] of the map
+  final LatLng center;
 
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
+      zoomControlsEnabled: false,
+      mapType: MapType.satellite,
       onTap: onTap,
       initialCameraPosition: CameraPosition(
         zoom: 16,
-        target: currentLocation ?? const LatLng(0, 0),
+        target: center,
       ),
       polygons: _buildPolygons(fields),
     );

@@ -2,6 +2,7 @@ import 'package:field_google_map/field_google_map.dart';
 import 'package:fields_repository/fields_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:root_gorge/current_location/bloc/current_location_bloc.dart';
 import 'package:root_gorge/fields_overview/fields_overview.dart';
 
 class FieldsOverviewPage extends StatelessWidget {
@@ -9,14 +10,18 @@ class FieldsOverviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FieldsOverviewBloc(
-        fieldsRepository: context.read<FieldsRepository>(),
-      )
-        ..add(const FieldsOverviewSubscriptionRequested())
-        ..add(
-          const UserLocationRequested(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => FieldsOverviewBloc(
+            fieldsRepository: context.read<FieldsRepository>(),
+          )..add(const FieldsOverviewSubscriptionRequested()),
         ),
+        BlocProvider(
+          create: (context) =>
+              CurrentLocationBloc()..add(const UserLocationRequested()),
+        ),
+      ],
       child: const FieldsOverviewView(),
     );
   }
@@ -55,7 +60,6 @@ class FieldsOverviewView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else {
               return FieldGoogleMap(
-                currentLocation: state.currentLocation,
                 fields: state.fields,
                 onTap: (latLng) {},
               );
