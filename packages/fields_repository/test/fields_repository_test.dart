@@ -16,17 +16,17 @@ void main() {
       Field(
         id: '1',
         mapPoints: const [MarkerLatLng(1.23, 2.34)],
-        beanType: 'bean type 1',
+        cropType: CropType(),
       ),
       Field(
         id: '2',
         mapPoints: const [MarkerLatLng(1.23, 2.34)],
-        beanType: 'bean type 2',
+        cropType: CropType(),
       ),
       Field(
         id: '3',
         mapPoints: const [MarkerLatLng(1.23, 2.34)],
-        beanType: 'bean type 3',
+        cropType: CropType(),
       ),
     ];
 
@@ -77,7 +77,7 @@ void main() {
         final newfield = Field(
           id: '4',
           mapPoints: const [MarkerLatLng(1.23, 2.34)],
-          beanType: 'bean type 4',
+          cropType: CropType(),
         );
 
         final subject = createSubject();

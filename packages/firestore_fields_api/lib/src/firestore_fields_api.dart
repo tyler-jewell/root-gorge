@@ -13,6 +13,10 @@ class FirestoreFieldsApi extends FieldsApi {
   /// Firestore Fields collection
   final fieldsCollection = FirebaseFirestore.instance.collection('fields');
 
+  /// Firestore Crop Type collection
+  final cropTypesCollection =
+      FirebaseFirestore.instance.collection('crop-types');
+
   @override
   Stream<List<Field>> getFields() =>
       fieldsCollection.snapshots().map((snapshot) {
@@ -22,8 +26,21 @@ class FirestoreFieldsApi extends FieldsApi {
       });
 
   @override
+  Stream<List<CropType>> getCropTypes() =>
+      cropTypesCollection.snapshots().map((snapshot) {
+        return snapshot.docs.map((doc) {
+          return CropType.fromJson(doc.data());
+        }).toList();
+      });
+
+  @override
   Future<void> saveField(Field field) async {
     await fieldsCollection.add(field.toJson());
+  }
+
+  @override
+  Future<void> saveCropType(CropType cropType) async {
+    await cropTypesCollection.add(cropType.toJson());
   }
 
   @override

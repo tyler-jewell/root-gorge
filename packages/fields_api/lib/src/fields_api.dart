@@ -10,10 +10,18 @@ abstract class FieldsApi {
   /// Provides a [Stream] of all fields.
   Stream<List<Field>> getFields();
 
+  /// Provides a [Stream] of all crop types.
+  Stream<List<CropType>> getCropTypes();
+
   /// Saves a [field].
   ///
   /// If a [field] with the same id already exists, it will be replaced.
   Future<void> saveField(Field field);
+
+  /// Saves a [cropType].
+  ///
+  /// If a [cropType] with the same id already exists, it will be replaced.
+  Future<void> saveCropType(CropType cropType);
 
   /// Deletes the field with the given id.
   ///

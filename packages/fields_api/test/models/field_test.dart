@@ -9,11 +9,7 @@ void main() {
       List<MarkerLatLng> mapPoints = const [MarkerLatLng(1.23, 3.45)],
       String beanType = 'normal',
     }) {
-      return Field(
-        id: id,
-        mapPoints: mapPoints,
-        beanType: beanType,
-      );
+      return Field(id: id, mapPoints: mapPoints, cropType: const CropType());
     }
 
     group('constructor', () {
@@ -77,7 +73,7 @@ void main() {
           createSubject().copyWith(
             id: '2',
             mapPoints: [const MarkerLatLng(1.23, 2.34)],
-            beanType: 'newBean',
+            cropType: const CropType(),
           ),
           equals(
             createSubject(

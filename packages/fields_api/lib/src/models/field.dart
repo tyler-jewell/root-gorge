@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:fields_api/fields_api.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 /// A class representing latitude and longitude coordinates.
@@ -41,7 +41,7 @@ class MarkerLatLng extends Equatable {
 /// {@template field}
 /// A single field item.
 ///
-/// Contains a set of list of [mapPoints], [beanType] and [id]
+/// Contains a set of list of [mapPoints], [cropType] and [id]
 ///
 /// {@endtemplate}
 @immutable
@@ -50,7 +50,7 @@ class Field extends Equatable {
   Field({
     String? id,
     required this.mapPoints,
-    this.beanType = '',
+    required this.cropType,
   })  : assert(
           id == null || id.isNotEmpty,
           'id can not be null and should be empty',
@@ -63,13 +63,13 @@ class Field extends Equatable {
         mapPoints = (json['mapPoints'] as List<dynamic>)
             .map((dynamic e) => MarkerLatLng.fromJson(e as JsonMap))
             .toList(),
-        beanType = json['beanType'] as String;
+        cropType = CropType.fromJson(json['cropType'] as Map<String, dynamic>);
 
   /// Converts this [Field] into a [JsonMap].
   JsonMap toJson() => <String, dynamic>{
         'id': id,
         'mapPoints': mapPoints.map((e) => e.toJson()).toList(),
-        'beanType': beanType,
+        'cropType': cropType.toJson(),
       };
 
   /// The unique identifier of the field.
@@ -82,10 +82,10 @@ class Field extends Equatable {
   /// Defaults to empty list of [MarkerLatLng]s
   final List<MarkerLatLng> mapPoints;
 
-  /// The type of bean field.
+  /// The type of crop.
   ///
   /// Defaults to an empty string.
-  final String beanType;
+  final CropType cropType;
 
   /// Returns a copy of this field with the given values updated.
   ///
@@ -94,15 +94,50 @@ class Field extends Equatable {
   Field copyWith({
     String? id,
     List<MarkerLatLng>? mapPoints,
-    String? beanType,
+    CropType? cropType,
   }) {
     return Field(
       id: id ?? this.id,
       mapPoints: mapPoints ?? this.mapPoints,
-      beanType: beanType ?? this.beanType,
+      cropType: cropType ?? this.cropType,
     );
   }
 
   @override
-  List<Object> get props => [id, mapPoints, beanType];
+  List<Object> get props => [id, mapPoints, cropType];
+}
+
+/// {@template field}
+/// A single crop type
+///
+/// Contains a [name]
+///
+/// {@endtemplate}
+@immutable
+class CropType extends Equatable {
+  /// {@macro field}
+  const CropType({
+    this.name = 'unknown',
+    this.labelColor = const Color.fromARGB(255, 78, 157, 90),
+  });
+
+  /// Deserializes the given [JsonMap] into a [CropType].
+  CropType.fromJson(Map<String, dynamic> json)
+      : name = json['name'] as String,
+        labelColor = Color(json['labelColor'] as int);
+
+  /// Converts this [CropType] into a [JsonMap].
+  JsonMap toJson() => <String, dynamic>{
+        'name': name,
+        'labelColor': labelColor.value,
+      };
+
+  /// Name of the crop
+  final String name;
+
+  /// Label color of the crop on the map
+  final Color labelColor;
+
+  @override
+  List<Object> get props => [name, labelColor];
 }

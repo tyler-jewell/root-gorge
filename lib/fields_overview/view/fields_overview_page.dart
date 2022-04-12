@@ -2,11 +2,23 @@ import 'package:field_google_map/field_google_map.dart';
 import 'package:fields_repository/fields_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:root_gorge/add_field/view/view.dart';
+import 'package:root_gorge/edit_field/view/edit_field_page.dart';
 import 'package:root_gorge/fields_overview/fields_overview.dart';
 
 class FieldsOverviewPage extends StatelessWidget {
   const FieldsOverviewPage({Key? key}) : super(key: key);
+
+  static Route<void> route({Field? initialField}) {
+    return MaterialPageRoute(
+      fullscreenDialog: true,
+      builder: (context) => BlocProvider(
+        create: (context) => FieldsOverviewBloc(
+          fieldsRepository: context.read<FieldsRepository>(),
+        ),
+        child: const FieldsOverviewPage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +46,7 @@ class FieldsOverviewView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(AddFieldPage.route());
+          Navigator.of(context).push(EditFieldPage.route());
         },
         child: const Icon(Icons.add),
       ),
