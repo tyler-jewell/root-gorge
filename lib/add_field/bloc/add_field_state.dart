@@ -1,24 +1,24 @@
-part of 'edit_field_bloc.dart';
+part of 'add_field_bloc.dart';
 
-enum EditFieldStatus { initial, loading, success, failure }
+enum AddFieldStatus { initial, loading, success, failure }
 
-class EditFieldState extends Equatable {
-  const EditFieldState({
-    this.status = EditFieldStatus.initial,
+class AddFieldState extends Equatable {
+  const AddFieldState({
+    this.status = AddFieldStatus.initial,
     this.mapPoints = const <MarkerLatLng>[],
     this.beanType = '',
   });
 
-  final EditFieldStatus status;
+  final AddFieldStatus status;
   final List<MarkerLatLng> mapPoints;
   final String beanType;
 
-  EditFieldState copyWith({
-    EditFieldStatus? status,
+  AddFieldState copyWith({
+    AddFieldStatus? status,
     List<MarkerLatLng>? mapPoints,
     String? beanType,
   }) {
-    return EditFieldState(
+    return AddFieldState(
       status: status ?? this.status,
       mapPoints: mapPoints ?? this.mapPoints,
       beanType: beanType ?? this.beanType,

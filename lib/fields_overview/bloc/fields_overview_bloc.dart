@@ -12,7 +12,6 @@ class FieldsOverviewBloc
   })  : _fieldsRepository = fieldsRepository,
         super(const FieldsOverviewState()) {
     on<FieldsOverviewSubscriptionRequested>(_onSubscriptionRequested);
-    on<UserLocationRequested>(_onUserLocationRequested);
   }
 
   final FieldsRepository _fieldsRepository;
@@ -34,23 +33,4 @@ class FieldsOverviewBloc
       ),
     );
   }
-}
-
-Future<void> _onUserLocationRequested(
-  UserLocationRequested event,
-  Emitter<CurrentLocationState> emit,
-) async {
-  emit(state.copyWith(status: () => CurrenLocationStatus.loading));
-
-  final currentLocation = await Location().getLocation();
-
-  emit(
-    state.copyWith(
-      status: () => CurrenLocationStatus.success,
-      currentLocation: LatLng(
-        currentLocation.latitude!,
-        currentLocation.longitude!,
-      ),
-    ),
-  );
 }

@@ -2,7 +2,7 @@ import 'package:field_google_map/field_google_map.dart';
 import 'package:fields_repository/fields_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:root_gorge/current_location/bloc/current_location_bloc.dart';
+import 'package:root_gorge/add_field/view/view.dart';
 import 'package:root_gorge/fields_overview/fields_overview.dart';
 
 class FieldsOverviewPage extends StatelessWidget {
@@ -16,10 +16,6 @@ class FieldsOverviewPage extends StatelessWidget {
           create: (context) => FieldsOverviewBloc(
             fieldsRepository: context.read<FieldsRepository>(),
           )..add(const FieldsOverviewSubscriptionRequested()),
-        ),
-        BlocProvider(
-          create: (context) =>
-              CurrentLocationBloc()..add(const UserLocationRequested()),
         ),
       ],
       child: const FieldsOverviewView(),
@@ -36,6 +32,14 @@ class FieldsOverviewView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Fields Overview'),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(AddFieldPage.route());
+        },
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
       body: MultiBlocListener(
         listeners: [
           BlocListener<FieldsOverviewBloc, FieldsOverviewState>(
