@@ -18,12 +18,11 @@ class EditFieldPage extends StatelessWidget {
 
   static Route<void> route({Field? initialField}) {
     return MaterialPageRoute(
-      fullscreenDialog: true,
       builder: (context) => BlocProvider(
         create: (context) => EditFieldBloc(
           fieldsRepository: context.read<FieldsRepository>(),
         ),
-        child: const EditFieldPage(),
+        child: const EditFieldView(),
       ),
     );
   }
@@ -87,9 +86,25 @@ class _EditFieldViewState extends State<EditFieldView> {
               onClosing: () {},
               builder: (BuildContext context) {
                 if (state.status == EditFieldStatus.editingMapPoints) {
-                  return const Text(
-                    'Tap the points around the field'
-                    ' to idenify your coordinates.',
+                  return Column(
+                    children: [
+                      const Text(
+                        'Tap the points around the field'
+                        ' to idenify your coordinates.',
+                      ),
+                      Row(
+                        children: [
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text('Save'),
+                          ),
+                        ],
+                      ),
+                    ],
                   );
                 } else if (state.status == EditFieldStatus.editingCropType) {
                   return const Text('Select the crop type.');
@@ -163,7 +178,8 @@ class _EditFieldViewState extends State<EditFieldView> {
 //               children: cropTypes
 //                   .map(
 //                     (e) => ChoiceChip(
-//                       onSelected: (_) => bloc.add(EditFieldCropTypeChanged(e)),
+//                       onSelected: (_) =>
+// bloc.add(EditFieldCropTypeChanged(e)),
 //                       label: Text(e.name),
 //                       selected: e == bloc.state.cropType,
 //                     ),

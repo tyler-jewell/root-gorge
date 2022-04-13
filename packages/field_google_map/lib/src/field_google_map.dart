@@ -25,19 +25,19 @@ class FieldGoogleMap extends StatefulWidget {
 }
 
 class _FieldGoogleMapState extends State<FieldGoogleMap> {
-  final Completer<GoogleMapController> _controller = Completer();
+  late GoogleMapController controller;
 
-  LatLng initialPosition = const LatLng(40.5143552, -104.9526272);
+  LatLng initialPosition = const LatLng(40.6143552, -104.9526272);
+  Location location = Location();
 
   @override
   void initState() {
+    print('new map');
     super.initState();
-    _getUserLocation();
+    // _getUserLocation();
   }
 
   Future<void> _getUserLocation() async {
-    final controller = await _controller.future;
-    final location = Location();
     final currentLocation = await location.getLocation();
 
     await controller.animateCamera(
@@ -52,31 +52,17 @@ class _FieldGoogleMapState extends State<FieldGoogleMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        GoogleMap(
-          onMapCreated: _controller.complete,
-          mapType: MapType.satellite,
-          onTap: widget.onTap,
-          initialCameraPosition: CameraPosition(
-            zoom: 16,
-            target: initialPosition,
-          ),
-          polygons: _buildPolygons(widget.fields),
-        ),
-        Positioned(
-          top: 20,
-          right: 20,
-          child: FloatingActionButton(
-            backgroundColor: Colors.white,
-            onPressed: _getUserLocation,
-            child: const Icon(
-              Icons.my_location,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ],
+    return GoogleMap(
+      onMapCreated: (controller) {
+        this.controller = controller;
+      },
+      mapType: MapType.satellite,
+      onTap: widget.onTap,
+      initialCameraPosition: CameraPosition(
+        zoom: 16,
+        target: initialPosition,
+      ),
+      polygons: _buildPolygons(widget.fields),
     );
   }
 }

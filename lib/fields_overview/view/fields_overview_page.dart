@@ -10,7 +10,6 @@ class FieldsOverviewPage extends StatelessWidget {
 
   static Route<void> route({Field? initialField}) {
     return MaterialPageRoute(
-      fullscreenDialog: true,
       builder: (context) => BlocProvider(
         create: (context) => FieldsOverviewBloc(
           fieldsRepository: context.read<FieldsRepository>(),
@@ -22,14 +21,10 @@ class FieldsOverviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => FieldsOverviewBloc(
-            fieldsRepository: context.read<FieldsRepository>(),
-          )..add(const FieldsOverviewSubscriptionRequested()),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => FieldsOverviewBloc(
+        fieldsRepository: context.read<FieldsRepository>(),
+      )..add(const FieldsOverviewSubscriptionRequested()),
       child: const FieldsOverviewView(),
     );
   }
@@ -42,7 +37,21 @@ class FieldsOverviewView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fields Overview'),
+        title: const Text('Be a neighbor'),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              label: 'account',
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -50,38 +59,19 @@ class FieldsOverviewView extends StatelessWidget {
         },
         child: const Icon(Icons.add),
       ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
-      body: MultiBlocListener(
-        listeners: [
-          BlocListener<FieldsOverviewBloc, FieldsOverviewState>(
-            listenWhen: (previous, current) =>
-                previous.status != current.status,
-            listener: (context, state) {
-              if (state.status == FieldsOverviewStatus.failure) {
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                    const SnackBar(
-                      content: Text('Error loading fields!'),
-                    ),
-                  );
-              }
-            },
-          ),
-        ],
-        child: BlocBuilder<FieldsOverviewBloc, FieldsOverviewState>(
-          builder: (context, state) {
-            if (state.status == FieldsOverviewStatus.loading) {
-              return const Center(child: CircularProgressIndicator());
-            } else {
-              return FieldGoogleMap(
-                fields: state.fields,
-                onTap: (latLng) {},
-              );
-            }
-          },
-        ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      body: BlocBuilder<FieldsOverviewBloc, FieldsOverviewState>(
+        builder: (context, state) {
+          if (state.status == FieldsOverviewStatus.loading ||
+              state.status == FieldsOverviewStatus.initial) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return FieldGoogleMap(
+              fields: state.fields,
+              onTap: (latLng) {},
+            );
+          }
+        },
       ),
     );
   }

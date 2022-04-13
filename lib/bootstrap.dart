@@ -11,16 +11,14 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:fields_api/fields_api.dart';
 import 'package:fields_repository/fields_repository.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:root_gorge/app/app.dart';
-import 'package:root_gorge/firebase_options.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
-    log('onChange(${bloc.runtimeType}, $change)');
+    print('onChange(${bloc.runtimeType}, $change)');
   }
 
   @override
