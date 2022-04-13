@@ -3,16 +3,7 @@ import 'package:fields_api/fields_api.dart';
 import 'package:fields_repository/fields_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:root_gorge/edit_crop_type/view/edit_crop_type_page.dart';
 import 'package:root_gorge/edit_field/bloc/edit_field_bloc.dart';
-
-const List<CropType> cropTypes = [
-  CropType(name: 'Dicamba'),
-  CropType(name: 'Enlist'),
-  CropType(name: 'Roundup'),
-  CropType(name: 'Non-GMO'),
-  CropType(name: 'Organic'),
-];
 
 const List<Color> cropColors = [
   Colors.green,
@@ -49,189 +40,172 @@ class EditFieldPage extends StatelessWidget {
   }
 }
 
-class EditFieldView extends StatelessWidget {
+class EditFieldView extends StatefulWidget {
   const EditFieldView({Key? key}) : super(key: key);
 
   @override
+  State<EditFieldView> createState() => _EditFieldViewState();
+}
+
+class _EditFieldViewState extends State<EditFieldView> {
+  @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<EditFieldBloc>();
+    final state = context.watch<EditFieldBloc>().state;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(bloc.state.status.toString()),
+        title: Text(state.status.toString()),
       ),
       body: Column(
         children: [
           Expanded(
+            flex: 9,
             child: FieldGoogleMap(
               onTap: (latLng) {
-                final mapPoints = [
-                  ...bloc.state.mapPoints,
-                  MarkerLatLng(latLng.latitude, latLng.longitude)
-                ];
-                context
-                    .read<EditFieldBloc>()
-                    .add(EditFieldPointsChanged(mapPoints));
+                if (state.status == EditFieldStatus.editingMapPoints) {
+                  final mapPoints = [
+                    ...state.mapPoints,
+                    MarkerLatLng(latLng.latitude, latLng.longitude)
+                  ];
+                  context
+                      .read<EditFieldBloc>()
+                      .add(EditFieldMapPointsChanged(mapPoints));
+                }
               },
               fields: [
                 Field(
-                  mapPoints: bloc.state.mapPoints,
-                  cropType: bloc.state.cropType,
+                  mapPoints: state.mapPoints,
+                  cropType: state.cropType,
+                  herbicide: state.herbicide,
                 )
               ],
             ),
           ),
-          if (bloc.state.mapPointsCompleted)
-            const _EditCropType()
-          else
-            const _EditFieldPoints()
+          Expanded(
+            flex: 3,
+            child: BottomSheet(
+              onClosing: () {},
+              builder: (BuildContext context) {
+                if (state.status == EditFieldStatus.editingMapPoints) {
+                  return const Text(
+                    'Tap the points around the field'
+                    ' to idenify your coordinates.',
+                  );
+                } else if (state.status == EditFieldStatus.editingCropType) {
+                  return const Text('Select the crop type.');
+                } else {
+                  return const Text('Select the herbicide.');
+                }
+              },
+            ),
+          )
         ],
       ),
     );
   }
 }
 
-class _DefineCropType extends StatelessWidget {
-  const _DefineCropType({
-    Key? key,
-  }) : super(key: key);
+// class _EditFieldPoints extends StatelessWidget {
+//   const _EditFieldPoints({
+//     Key? key,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        children: [
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Enter Crop Type Name',
-            ),
-          ),
-          const SizedBox(height: 12),
-          const Text('Select crop color'),
-          const SizedBox(height: 12),
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Next: Select color'),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(12),
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//         children: [
+//           Text(
+//             'Define field boundaries by tapping points on the map',
+//             softWrap: true,
+//             style: Theme.of(context).textTheme.headline6,
+//           ),
+//           const SizedBox(height: 12),
+//           ElevatedButton(
+//             child: const Text('Next: Define crop type'),
+//             onPressed: () => context
+//                 .read<EditFieldBloc>()
+//                 .add(const EditFieldPointsCompleted()),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-class _EditFieldPoints extends StatelessWidget {
-  const _EditFieldPoints({
-    Key? key,
-  }) : super(key: key);
+// class _EditCropType extends StatelessWidget {
+//   const _EditCropType({
+//     Key? key,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            'Define field boundaries by tapping points on the map',
-            softWrap: true,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          const SizedBox(height: 12),
-          ElevatedButton(
-            child: const Text('Next: Define crop type'),
-            onPressed: () => context
-                .read<EditFieldBloc>()
-                .add(const EditFieldPointsCompleted()),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _EditCropType extends StatelessWidget {
-  const _EditCropType({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = context.watch<EditFieldBloc>();
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Select crop type',
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 10),
-          ),
-          SingleChildScrollView(
-            child: Wrap(
-              runSpacing: 10,
-              spacing: 10,
-              children: cropTypes
-                  .map(
-                    (e) => ChoiceChip(
-                      onSelected: (_) => bloc.add(EditFieldCropTypeChanged(e)),
-                      label: Text(e.name),
-                      selected: e == bloc.state.cropType,
-                    ),
-                  )
-                  .toList()
-                ..add(
-                  ChoiceChip(
-                    selected: false,
-                    onSelected: (_) => Navigator.of(context).push(
-                      EditCropTypePage.route(),
-                    ),
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Icon(Icons.add),
-                        Text('Add Crop Type'),
-                      ],
-                    ),
-                  ),
-                ),
-            ),
-          ),
-          ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 10),
-          ),
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: () => bloc.add(EditFieldSubmitted()),
-                  child: const Text('Save field'),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final bloc = context.watch<EditFieldBloc>();
+//     return Padding(
+//       padding: const EdgeInsets.all(12),
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//         crossAxisAlignment: CrossAxisAlignment.stretch,
+//         children: [
+//           Text(
+//             'Select crop type',
+//             style: Theme.of(context).textTheme.headline6,
+//           ),
+//           ConstrainedBox(
+//             constraints: const BoxConstraints(minHeight: 10),
+//           ),
+//           SingleChildScrollView(
+//             child: Wrap(
+//               runSpacing: 10,
+//               spacing: 10,
+//               children: cropTypes
+//                   .map(
+//                     (e) => ChoiceChip(
+//                       onSelected: (_) => bloc.add(EditFieldCropTypeChanged(e)),
+//                       label: Text(e.name),
+//                       selected: e == bloc.state.cropType,
+//                     ),
+//                   )
+//                   .toList()
+//                 ..add(
+//                   ChoiceChip(
+//                     selected: false,
+//                     onSelected: (_) => Navigator.of(context).push(
+//                       EditCropTypePage.route(),
+//                     ),
+//                     label: Row(
+//                       mainAxisSize: MainAxisSize.min,
+//                       children: const [
+//                         Icon(Icons.add),
+//                         Text('Add Crop Type'),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//             ),
+//           ),
+//           ConstrainedBox(
+//             constraints: const BoxConstraints(minHeight: 10),
+//           ),
+//           Center(
+//             child: Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//               children: [
+//                 TextButton(
+//                   onPressed: () {},
+//                   child: const Text('Cancel'),
+//                 ),
+//                 ElevatedButton(
+//                   onPressed: () => bloc.add(EditFieldSubmitted()),
+//                   child: const Text('Save field'),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

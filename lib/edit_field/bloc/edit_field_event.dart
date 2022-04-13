@@ -10,8 +10,8 @@ abstract class EditFieldEvent extends Equatable {
   String toString() => 'EditFieldEvent';
 }
 
-class EditFieldPointsChanged extends EditFieldEvent {
-  const EditFieldPointsChanged(this.mapPoints);
+class EditFieldMapPointsChanged extends EditFieldEvent {
+  const EditFieldMapPointsChanged(this.mapPoints);
 
   final List<MarkerLatLng> mapPoints;
 
@@ -19,7 +19,7 @@ class EditFieldPointsChanged extends EditFieldEvent {
   List<Object> get props => [mapPoints];
 
   @override
-  String toString() => 'EditFieldPointsChanged';
+  String toString() => 'EditFieldMapPointsChanged';
 }
 
 class EditFieldCropTypeChanged extends EditFieldEvent {
@@ -34,14 +34,16 @@ class EditFieldCropTypeChanged extends EditFieldEvent {
   String toString() => 'EditFieldCropTypeChanged';
 }
 
-class EditFieldPointsCompleted extends EditFieldEvent {
-  const EditFieldPointsCompleted();
+class EditFieldHerbicideChanged extends EditFieldEvent {
+  const EditFieldHerbicideChanged(this.herbicide);
+
+  final Herbicide herbicide;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [herbicide];
 
   @override
-  String toString() => 'EditFieldPointsCompleted';
+  String toString() => 'EditFieldHerbicideChanged';
 }
 
 class EditFieldSubmitted extends EditFieldEvent {

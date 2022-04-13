@@ -89,9 +89,9 @@ Set<Polygon> _buildPolygons(List<Field> fields) {
           (point) => LatLng(point.latitude, point.longitude),
         ),
       ],
-      strokeColor: field.cropType.labelColor,
+      strokeColor: Colors.grey,
       strokeWidth: 2,
-      fillColor: field.cropType.labelColor.withOpacity(0.5),
+      fillColor: Colors.grey.withOpacity(0.5),
       polygonId: PolygonId(field.id),
     );
   }).toSet();

@@ -11,16 +11,16 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
     required FieldsRepository fieldsRepository,
   })  : _fieldsRepository = fieldsRepository,
         super(const EditFieldState()) {
-    on<EditFieldPointsChanged>(_onPointsChanged);
+    on<EditFieldMapPointsChanged>(_onPointsChanged);
     on<EditFieldCropTypeChanged>(_onCropTypeChanged);
-    on<EditFieldPointsCompleted>(_onPointsCompleted);
     on<EditFieldSubmitted>(_onSubmitted);
+    on<EditFieldHerbicideChanged>(_onHerbicideChanged);
   }
 
   final FieldsRepository _fieldsRepository;
 
   void _onPointsChanged(
-    EditFieldPointsChanged event,
+    EditFieldMapPointsChanged event,
     Emitter<EditFieldState> emit,
   ) {
     emit(state.copyWith(mapPoints: event.mapPoints));
@@ -33,11 +33,11 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
     emit(state.copyWith(cropType: event.cropType));
   }
 
-  void _onPointsCompleted(
-    EditFieldPointsCompleted event,
+  void _onHerbicideChanged(
+    EditFieldHerbicideChanged event,
     Emitter<EditFieldState> emit,
   ) {
-    emit(state.copyWith(mapPointsCompleted: true));
+    emit(state.copyWith(herbicide: event.herbicide));
   }
 
   Future<void> _onSubmitted(
@@ -46,7 +46,11 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
   ) async {
     emit(state.copyWith(status: EditFieldStatus.loading));
 
-    final field = Field(mapPoints: state.mapPoints, cropType: state.cropType);
+    final field = Field(
+      mapPoints: state.mapPoints,
+      cropType: state.cropType,
+      herbicide: state.herbicide,
+    );
 
     try {
       await _fieldsRepository.saveField(field);
