@@ -1,7 +1,7 @@
 import 'package:fields_repository/fields_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:root_gorge/fields_overview/view/fields_overview_page.dart';
+import 'package:root_gorge/home/view/home_page.dart';
 
 class App extends StatelessWidget {
   const App({Key? key, required this.fieldsRepository}) : super(key: key);
@@ -31,7 +31,7 @@ class AppView extends StatelessWidget {
           backgroundColor: Colors.white,
         ),
       ),
-      home: const FieldsOverviewPage(),
+      home: const HomePage(),
     );
   }
 }

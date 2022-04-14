@@ -8,7 +8,7 @@ import 'package:root_gorge/fields_overview/fields_overview.dart';
 class FieldsOverviewPage extends StatelessWidget {
   const FieldsOverviewPage({Key? key}) : super(key: key);
 
-  static Route<void> route({Field? initialField}) {
+  static Route<void> route() {
     return MaterialPageRoute(
       builder: (context) => BlocProvider(
         create: (context) => FieldsOverviewBloc(
@@ -18,20 +18,6 @@ class FieldsOverviewPage extends StatelessWidget {
       ),
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FieldsOverviewBloc(
-        fieldsRepository: context.read<FieldsRepository>(),
-      )..add(const FieldsOverviewSubscriptionRequested()),
-      child: const FieldsOverviewView(),
-    );
-  }
-}
-
-class FieldsOverviewView extends StatelessWidget {
-  const FieldsOverviewView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
