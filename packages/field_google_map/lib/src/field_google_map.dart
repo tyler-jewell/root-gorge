@@ -25,22 +25,28 @@ class FieldGoogleMap extends StatefulWidget {
 }
 
 class _FieldGoogleMapState extends State<FieldGoogleMap> {
-  late GoogleMapController controller;
+  late GoogleMapController _mapController;
+  late Location _location;
 
   LatLng initialPosition = const LatLng(40.6143552, -104.9526272);
-  Location location = Location();
+
+  void _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+    _location = Location();
+    _getUserLocation();
+  }
 
   @override
   void initState() {
     print('new map');
     super.initState();
-    // _getUserLocation();
+    _getUserLocation();
   }
 
   Future<void> _getUserLocation() async {
-    final currentLocation = await location.getLocation();
+    final currentLocation = await _location.getLocation();
 
-    await controller.animateCamera(
+    await _mapController.moveCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
           zoom: 16,
@@ -53,9 +59,7 @@ class _FieldGoogleMapState extends State<FieldGoogleMap> {
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
-      onMapCreated: (controller) {
-        this.controller = controller;
-      },
+      onMapCreated: _onMapCreated,
       mapType: MapType.satellite,
       onTap: widget.onTap,
       initialCameraPosition: CameraPosition(

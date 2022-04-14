@@ -57,6 +57,7 @@ class FieldsOverviewView extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(EditFieldPage.route());
         },
+        isExtended: true,
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
