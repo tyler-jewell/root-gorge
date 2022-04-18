@@ -21,6 +21,20 @@ class FieldsOverviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => FieldsOverviewBloc(
+        fieldsRepository: context.read<FieldsRepository>(),
+      )..add(const FieldsOverviewSubscriptionRequested()),
+      child: const FieldsOverviewView(),
+    );
+  }
+}
+
+class FieldsOverviewView extends StatelessWidget {
+  const FieldsOverviewView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Be a neighbor'),
