@@ -1,9 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+final cropTypes = [
+  {'label': 'Corn', 'avatarPath': 'assets/corn-logo.png'},
+  {'label': 'Wheat', 'avatarPath': 'assets/wheat-logo.png'},
+  {'label': 'Soybeans', 'avatarPath': 'assets/soybean-logo.png'},
+  {'label': 'GMO', 'avatarPath': 'assets/gmo-logo.png'},
+  {'label': 'Organic', 'avatarPath': 'assets/organic-logo.png'},
+  {'label': 'Other', 'avatarPath': 'assets/corn-logo.png'}
+];
+final herbicideTypes = ['Dicamba', 'Enlist', 'Roundup', 'Other'];
 
 class FieldMapView extends StatefulWidget {
   const FieldMapView({Key? key}) : super(key: key);
@@ -14,10 +25,15 @@ class FieldMapView extends StatefulWidget {
 
 class _FieldMapViewState extends State<FieldMapView> {
   late GoogleMapController _mapController;
+  final PanelController _panelController = PanelController();
+
   late Location _location;
 
-  bool _showAddPointsBanner = false;
+  bool _addingPoints = false;
   bool _showSettingsSheet = false;
+  bool _panEnabled = true;
+  String selectedCropType = '';
+  String selectedHerbicideType = '';
   List<LatLng> fieldPoints = [];
   List<List<LatLng>> fields = [];
 
@@ -25,15 +41,12 @@ class _FieldMapViewState extends State<FieldMapView> {
 
   void _handleAddFieldButtonClicked() {
     setState(() {
-      print('clicked');
-      _showAddPointsBanner = true;
+      _addingPoints = true;
     });
   }
 
   void _handleMapTap(LatLng latLng) {
-    print('tapped');
-    if (_showAddPointsBanner) {
-      print('add tapped');
+    if (_addingPoints) {
       setState(() {
         fieldPoints.add(latLng);
       });
@@ -43,15 +56,13 @@ class _FieldMapViewState extends State<FieldMapView> {
   void _handleCancelAddField() {
     setState(() {
       fieldPoints = [];
-      _showAddPointsBanner = false;
+      _addingPoints = false;
     });
   }
 
   void _handleSubmitFieldPoints() {
     setState(() {
-      // fields.add(fieldPoints);
-      // fieldPoints = [];
-      _showAddPointsBanner = false;
+      _addingPoints = false;
       _showSettingsSheet = true;
     });
   }
@@ -83,7 +94,6 @@ class _FieldMapViewState extends State<FieldMapView> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
-    print('created');
     _mapController = controller;
     _location = Location();
     _getUserLocation();
@@ -110,60 +120,135 @@ class _FieldMapViewState extends State<FieldMapView> {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
     return Scaffold(
-      body: Column(
-        children: [
-          if (_showAddPointsBanner)
-            MaterialBanner(
-              content: Text(
-                'Tap points around the boundary of the field',
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
-              leading: const CircleAvatar(
-                child: Icon(Icons.touch_app_rounded),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: _handleCancelAddField,
-                  child: const Text('Cancel'),
+      appBar: AppBar(
+        title: _addingPoints
+            ? const Center(
+                child: Text('Tap points around the boundary of the field'),
+              )
+            : const Text('Fields'),
+        leading: _addingPoints
+            ? const Padding(
+                padding: EdgeInsets.all(8),
+                child: CircleAvatar(
+                  child: Icon(Icons.touch_app_rounded),
                 ),
-                TextButton(
-                  onPressed: _handleSubmitFieldPoints,
-                  child: const Text('Submit'),
+              )
+            : Container(),
+        actions: _addingPoints
+            ? [
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: GestureDetector(
+                    onTap: _handleCancelAddField,
+                    child: const Icon(Icons.close),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: GestureDetector(
+                    onTap: _handleSubmitFieldPoints,
+                    child: const Icon(
+                      Icons.check,
+                    ),
+                  ),
+                ),
+              ]
+            : [
+                GestureDetector(
+                  onTap: _handleAddFieldButtonClicked,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [Icon(Icons.add), Text('Add field')],
+                    ),
+                  ),
                 ),
               ],
-            ),
-          Flexible(
-            child: GoogleMap(
-              mapToolbarEnabled: false,
-              onMapCreated: _onMapCreated,
-              mapType: MapType.satellite,
-              onTap: _handleMapTap,
-              initialCameraPosition: CameraPosition(
-                zoom: 16,
-                target: initialPosition,
-              ),
-              polygons: _showAddPointsBanner || _showSettingsSheet
-                  ? _buildNewField()
-                  : _buildAllFields(),
-            ),
-          ),
-          if (_showSettingsSheet)
-            SlidingUpPanel(
-              panel: const Center(
-                child: Text('This is sliding up'),
-              ),
-            ),
-        ],
       ),
-      floatingActionButton: _showAddPointsBanner || _showSettingsSheet
-          ? null
-          : FloatingActionButton(
-              onPressed: _handleAddFieldButtonClicked,
-              child: const Icon(Icons.add),
-            ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      body: SlidingUpPanel(
+        minHeight: 200,
+        controller: _panelController,
+        body: GoogleMap(
+          zoomGesturesEnabled: _panEnabled,
+          mapToolbarEnabled: false,
+          onMapCreated: _onMapCreated,
+          mapType: MapType.satellite,
+          onTap: _handleMapTap,
+          initialCameraPosition: CameraPosition(
+            zoom: 16,
+            target: initialPosition,
+          ),
+          polygons: _addingPoints || _showSettingsSheet
+              ? _buildNewField()
+              : _buildAllFields(),
+        ),
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(10),
+        ),
+        panel: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Field type',
+                style: GoogleFonts.openSans(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 10,
+                children: cropTypes
+                    .map(
+                      (Map<String, String> cropType) => ChoiceChip(
+                        avatar: Image.asset(cropType['avatarPath']!),
+                        selected: selectedCropType == cropType['label'],
+                        label: Text(cropType['label']!),
+                        onSelected: (_) {
+                          setState(() {
+                            selectedCropType = cropType['label']!;
+                          });
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Herbicide type',
+                style: GoogleFonts.openSans(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 10,
+                children: herbicideTypes
+                    .map(
+                      (String herbicideType) => FilterChip(
+                        selected: selectedHerbicideType == herbicideType,
+                        label: Text(herbicideType),
+                        onSelected: (_) {
+                          setState(() {
+                            selectedHerbicideType = herbicideType;
+                          });
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
+            ],
+          ),
+        ),
+        onPanelSlide: (double pos) {
+          setState(() {
+            _panEnabled = false;
+            Timer(
+              const Duration(seconds: 1),
+              () => setState(() => _panEnabled = true),
+            );
+          });
+        },
+      ),
     );
   }
 }
