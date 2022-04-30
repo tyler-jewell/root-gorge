@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fields_repository/fields_repository.dart';
+import 'package:root_gorge/models/field.dart';
+import 'package:root_gorge/repository/fields_repository.dart';
 
 part 'fields_overview_event.dart';
 part 'fields_overview_state.dart';

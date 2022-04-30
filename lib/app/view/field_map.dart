@@ -9,6 +9,33 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 final cropTypes = ['Corn', 'Wheat', 'Soybeans', 'GMO', 'Organic', 'Other'];
 final herbicideTypes = ['Dicamba', 'Enlist', 'Roundup', 'Other'];
 
+class Field {
+  Field({
+    required this.fieldId,
+    required this.cropType,
+    required this.herbicideType,
+    required this.fieldPoints,
+  });
+
+  final String fieldId;
+  final String cropType;
+  final String herbicideType;
+  final List<LatLng> fieldPoints;
+}
+
+List<Field> fields = [
+  Field(
+    fieldId: 'field-a',
+    cropType: 'Corn',
+    herbicideType: 'Dicamba',
+    fieldPoints: [
+      const LatLng(40.5139070994143, -104.95444389369341),
+      const LatLng(40.51599126423923, -104.9548347418383),
+      const LatLng(40.514743016149815, -104.95045813109728)
+    ],
+  ),
+];
+
 class FieldMapView extends StatefulWidget {
   const FieldMapView({Key? key}) : super(key: key);
 
@@ -30,13 +57,6 @@ class _FieldMapViewState extends State<FieldMapView> {
   String selectedHerbicideType = '';
 
   List<LatLng> fieldPoints = [];
-  List<List<LatLng>> fields = [
-    [
-      const LatLng(40.5139070994143, -104.95444389369341),
-      const LatLng(40.51599126423923, -104.9548347418383),
-      const LatLng(40.514743016149815, -104.95045813109728)
-    ]
-  ];
 
   LatLng initialPosition = const LatLng(40.6143552, -104.9526272);
 
@@ -57,8 +77,6 @@ class _FieldMapViewState extends State<FieldMapView> {
 
   void _handleCancelAddField() {
     setState(() {
-      selectedCropType = '';
-      selectedHerbicideType = '';
       fieldPoints = [];
       _editingField = false;
       _addingPoints = false;
@@ -73,13 +91,12 @@ class _FieldMapViewState extends State<FieldMapView> {
   }
 
   void _handleSaveField() {
-    setState(() {
-      fields.add(fieldPoints);
-      fieldPoints = [];
-      selectedCropType = '';
-      selectedHerbicideType = '';
-      _editingField = false;
-    });
+    // setState(() {
+    //   fields.add(fieldPoints);
+    //   fieldPoints = [];
+
+    //   _editingField = false;
+    // });
   }
 
   Set<Polygon> _buildNewField() {
@@ -97,8 +114,8 @@ class _FieldMapViewState extends State<FieldMapView> {
   Set<Polygon> _buildAllFields() {
     return fields.map((field) {
       return Polygon(
-        polygonId: const PolygonId('field'),
-        points: field,
+        polygonId: PolygonId(field.fieldId),
+        points: field.fieldPoints,
         fillColor: Colors.green.withOpacity(0.3),
         strokeColor: Colors.green,
         strokeWidth: 2,
@@ -242,7 +259,7 @@ class _FieldMapViewState extends State<FieldMapView> {
     );
   }
 
-  Widget _fieldsOverviewView() {
+  Widget _googleMap({required Set<Polygon> polygons}) {
     return GoogleMap(
       zoomGesturesEnabled: _panEnabled,
       mapToolbarEnabled: false,
@@ -253,7 +270,7 @@ class _FieldMapViewState extends State<FieldMapView> {
         zoom: 16,
         target: initialPosition,
       ),
-      polygons: _buildAllFields(),
+      polygons: polygons,
     );
   }
 
@@ -261,18 +278,7 @@ class _FieldMapViewState extends State<FieldMapView> {
     return SlidingUpPanel(
       maxHeight: MediaQuery.of(context).size.height * 0.4,
       controller: _panelController,
-      body: GoogleMap(
-        zoomGesturesEnabled: _panEnabled,
-        mapToolbarEnabled: false,
-        onMapCreated: _onMapCreated,
-        mapType: MapType.satellite,
-        onTap: _handleMapTap,
-        initialCameraPosition: CameraPosition(
-          zoom: 16,
-          target: initialPosition,
-        ),
-        polygons: _buildNewField(),
-      ),
+      body: _googleMap(polygons: _buildNewField()),
       borderRadius: const BorderRadius.vertical(
         top: Radius.circular(10),
       ),
@@ -333,7 +339,11 @@ class _FieldMapViewState extends State<FieldMapView> {
                 ),
               ],
       ),
-      body: _editingField ? _editFieldView() : _fieldsOverviewView(),
+      body: _editingField
+          ? _editFieldView()
+          : _googleMap(
+              polygons: _buildAllFields(),
+            ),
     );
   }
 }

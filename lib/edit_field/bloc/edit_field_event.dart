@@ -13,7 +13,7 @@ abstract class EditFieldEvent extends Equatable {
 class EditFieldMapPointsChanged extends EditFieldEvent {
   const EditFieldMapPointsChanged(this.mapPoints);
 
-  final List<MarkerLatLng> mapPoints;
+  final List<Geo> mapPoints;
 
   @override
   List<Object> get props => [mapPoints];

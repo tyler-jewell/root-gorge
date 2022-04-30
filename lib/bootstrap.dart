@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:fields_api/fields_api.dart';
-import 'package:fields_repository/fields_repository.dart';
+
 import 'package:flutter/widgets.dart';
+import 'package:root_gorge/api/fields_api.dart';
 import 'package:root_gorge/app/app.dart';
+import 'package:root_gorge/repository/fields_repository.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override

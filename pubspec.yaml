@@ -8,33 +8,30 @@ environment:
 
 dependencies:
   bloc: ^8.0.3
-  field_google_map:
-    path: packages/field_google_map
-  fields_api:
-    path: packages/fields_api
-  fields_repository:
-    path: packages/fields_repository
-  firebase_core: ^1.14.0
-  firestore_fields_api:
-    path: packages/firestore_fields_api
+  cloud_firestore: ^3.1.13
+  equatable: ^2.0.3
+  firebase_core: ^1.15.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
   flutter_services_binding: ^0.1.0
+  freezed_annotation: ^2.0.1
   google_fonts: ^2.3.1
   google_maps_flutter: ^2.1.1
   google_maps_flutter_web: ^0.3.2+1
   intl: ^0.17.0
+  json_annotation: ^4.5.0
+  json_serializable: ^6.2.0
+  location: ^4.3.0
   sliding_up_panel: ^2.0.0+1
 
 dev_dependencies:
-  bloc_test: ^9.0.3
+  build_runner: ^2.1.10
   flutter_test:
     sdk: flutter
-  mockingjay: ^0.2.0
-  mocktail: ^0.2.0
+  freezed: ^2.0.2
   very_good_analysis: ^2.4.0
 
 flutter:

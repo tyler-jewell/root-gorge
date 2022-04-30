@@ -1,7 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fields_api/fields_api.dart';
-import 'package:fields_repository/fields_repository.dart';
+import 'package:root_gorge/models/crop_type.dart';
+import 'package:root_gorge/models/field.dart';
+import 'package:root_gorge/models/geo.dart';
+import 'package:root_gorge/models/herbicide.dart';
+import 'package:root_gorge/repository/fields_repository.dart';
 
 part 'edit_field_event.dart';
 part 'edit_field_state.dart';
@@ -9,12 +12,20 @@ part 'edit_field_state.dart';
 class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
   EditFieldBloc({
     required FieldsRepository fieldsRepository,
+    required Field? initialField,
   })  : _fieldsRepository = fieldsRepository,
-        super(const EditFieldState()) {
+        super(
+          EditFieldState(
+            initialField: initialField,
+            mapPoints: initialField?.mapPoints ?? const <Geo>[],
+            herbicide: initialField?.herbicide ?? const Herbicide(),
+            cropType: initialField?.cropType ?? const CropType(),
+          ),
+        ) {
     on<EditFieldMapPointsChanged>(_onPointsChanged);
     on<EditFieldCropTypeChanged>(_onCropTypeChanged);
-    on<EditFieldSubmitted>(_onSubmitted);
     on<EditFieldHerbicideChanged>(_onHerbicideChanged);
+    on<EditFieldSubmitted>(_onSubmitted);
   }
 
   final FieldsRepository _fieldsRepository;
@@ -47,13 +58,18 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
     emit(state.copyWith(status: EditFieldStatus.loading));
 
     final field = Field(
+      id: state.initialField?.id ?? '',
       mapPoints: state.mapPoints,
       cropType: state.cropType,
       herbicide: state.herbicide,
     );
 
     try {
-      await _fieldsRepository.saveField(field);
+      if (state.isNewField) {
+        await _fieldsRepository.updateField(field);
+      } else {
+        await _fieldsRepository.updateField(field);
+      }
       emit(state.copyWith(status: EditFieldStatus.success));
     } catch (e) {
       emit(state.copyWith(status: EditFieldStatus.failure));
