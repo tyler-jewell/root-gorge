@@ -13,7 +13,18 @@ class FieldsOverviewPage extends StatelessWidget {
       create: (_) => FieldsOverviewBloc(
         fieldsRepository: context.read<FieldsRepository>(),
       )..add(const FieldsOverviewSubscriptionRequested()),
-      child: const FieldsOverviewView(),
+      child: BlocListener<FieldsOverviewBloc, FieldsOverviewState>(
+        listener: (context, state) {
+          if (state.status == FieldsOverviewStatus.failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Awesome Snackbar!'),
+              ),
+            );
+          }
+        },
+        child: const FieldsOverviewView(),
+      ),
     );
   }
 }

@@ -4,7 +4,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:root_gorge/edit_field/bloc/edit_field_bloc.dart';
 import 'package:root_gorge/models/crop_type.dart';
 import 'package:root_gorge/models/field.dart';
+import 'package:root_gorge/models/herbicide.dart';
 import 'package:root_gorge/repository/fields_repository.dart';
+
+final List<CropType> cropTypes = [
+  const CropType(name: 'Corn', description: 'This is corn.'),
+  const CropType(name: 'Wheat', description: 'This is wheat.'),
+  const CropType(name: 'Soybeans', description: 'This is soybeans.'),
+  const CropType(name: 'GMO', description: 'This is GMO.'),
+  const CropType(name: 'Organic', description: 'This is organic.'),
+  const CropType(name: 'Other', description: 'This is other.'),
+];
+
+final List<Herbicide> herbicides = [
+  const Herbicide(name: 'Dicamba', description: 'This is dicamba.'),
+  const Herbicide(name: 'Enlist', description: 'This is enlist.'),
+  const Herbicide(name: 'Roundup', description: 'This is roundup.'),
+  const Herbicide(name: 'Other', description: 'This is other.'),
+];
 
 class EditFieldPage extends StatelessWidget {
   const EditFieldPage({Key? key}) : super(key: key);
@@ -51,15 +68,15 @@ class EditFieldView extends StatelessWidget {
           Wrap(
             spacing: 10,
             runSpacing: 10,
-            children: CropType.values
+            children: cropTypes
                 .map(
                   (CropType cropType) => FilterChip(
                     selected: state.cropType == cropType,
                     label: Text(cropType.name),
                     onSelected: (_) {
-                      context
-                          .read<EditFieldBloc>()
-                          .add(EditFieldCropTypeChanged(cropType));
+                      context.read<EditFieldBloc>().add(
+                            EditFieldCropTypeChanged(cropType),
+                          );
                     },
                   ),
                 )
@@ -74,7 +91,7 @@ class EditFieldView extends StatelessWidget {
           Wrap(
             spacing: 10,
             runSpacing: 10,
-            children: Herbicide.values
+            children: herbicides
                 .map(
                   (Herbicide herbicideType) => FilterChip(
                     selected: state.herbicide == herbicideType,
