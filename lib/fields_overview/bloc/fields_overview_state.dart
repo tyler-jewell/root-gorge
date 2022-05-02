@@ -24,3 +24,12 @@ class FieldsOverviewState extends Equatable {
   @override
   List<Object?> get props => [status, fields];
 }
+
+class FieldsOverviewError extends FieldsOverviewState {
+  const FieldsOverviewError(this.error);
+
+  final String error;
+
+  @override
+  List<Object> get props => [error];
+}

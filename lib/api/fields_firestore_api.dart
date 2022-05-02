@@ -14,15 +14,11 @@ class FirestoreFieldsApi extends FieldsApi {
   /// Firestore Fields collection
   final fieldsCollection = FirebaseFirestore.instance.collection('fields');
 
-  /// Firestore Crop Type collection
-  final cropTypesCollection =
-      FirebaseFirestore.instance.collection('crop-types');
-
   @override
   Stream<List<Field>> getFields() =>
       fieldsCollection.snapshots().map((snapshot) {
         return snapshot.docs.map((doc) {
-          return Field.fromJson(doc.data());
+          return Field.fromDocument(doc);
         }).toList();
       });
 

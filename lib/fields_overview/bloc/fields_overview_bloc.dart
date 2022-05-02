@@ -29,9 +29,13 @@ class FieldsOverviewBloc
         status: () => FieldsOverviewStatus.success,
         fields: () => fields,
       ),
-      onError: (_, __) => state.copyWith(
-        status: () => FieldsOverviewStatus.failure,
-      ),
+      onError: (e, s) {
+        print(e);
+        print(s.toString());
+        return state.copyWith(
+          status: () => FieldsOverviewStatus.failure,
+        );
+      },
     );
   }
 }
