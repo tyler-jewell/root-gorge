@@ -7,6 +7,14 @@ abstract class FieldsOverviewEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FieldsOverviewSubscriptionRequested extends FieldsOverviewEvent {
-  const FieldsOverviewSubscriptionRequested();
+class FieldSubscriptionRequested extends FieldsOverviewEvent {
+  const FieldSubscriptionRequested();
+}
+
+class CropTypeSubscriptionRequested extends FieldsOverviewEvent {
+  const CropTypeSubscriptionRequested();
+}
+
+class HerbicideSubscriptionRequested extends FieldsOverviewEvent {
+  const HerbicideSubscriptionRequested();
 }

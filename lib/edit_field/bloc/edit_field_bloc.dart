@@ -18,8 +18,8 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
           EditFieldState(
             initialField: initialField,
             mapPoints: initialField?.mapPoints ?? const <Geo>[],
-            herbicide: initialField?.herbicide ?? const Herbicide(),
-            cropType: initialField?.cropType ?? const CropType(),
+            herbicideId: initialField?.herbicideId ?? '',
+            cropTypeId: initialField?.cropTypeId ?? '',
           ),
         ) {
     on<EditFieldMapPointsChanged>(_onPointsChanged);
@@ -41,14 +41,14 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
     EditFieldCropTypeChanged event,
     Emitter<EditFieldState> emit,
   ) {
-    emit(state.copyWith(cropType: event.cropType));
+    emit(state.copyWith(cropTypeId: event.cropTypeId));
   }
 
   void _onHerbicideChanged(
     EditFieldHerbicideChanged event,
     Emitter<EditFieldState> emit,
   ) {
-    emit(state.copyWith(herbicide: event.herbicide));
+    emit(state.copyWith(herbicideId: event.herbicideId));
   }
 
   Future<void> _onSubmitted(
@@ -60,8 +60,8 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
     final field = Field(
       id: state.initialField?.id ?? '',
       mapPoints: state.mapPoints,
-      cropType: state.cropType,
-      herbicide: state.herbicide,
+      cropTypeId: state.cropTypeId,
+      herbicideId: state.herbicideId,
     );
 
     try {

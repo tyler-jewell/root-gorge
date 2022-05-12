@@ -20,6 +20,7 @@ Herbicide _$HerbicideFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Herbicide {
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
 
@@ -33,7 +34,7 @@ mixin _$Herbicide {
 abstract class $HerbicideCopyWith<$Res> {
   factory $HerbicideCopyWith(Herbicide value, $Res Function(Herbicide) then) =
       _$HerbicideCopyWithImpl<$Res>;
-  $Res call({String name, String description});
+  $Res call({String id, String name, String description});
 }
 
 /// @nodoc
@@ -46,10 +47,15 @@ class _$HerbicideCopyWithImpl<$Res> implements $HerbicideCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = freezed,
     Object? description = freezed,
   }) {
     return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -68,7 +74,7 @@ abstract class _$HerbicideCopyWith<$Res> implements $HerbicideCopyWith<$Res> {
           _Herbicide value, $Res Function(_Herbicide) then) =
       __$HerbicideCopyWithImpl<$Res>;
   @override
-  $Res call({String name, String description});
+  $Res call({String id, String name, String description});
 }
 
 /// @nodoc
@@ -82,10 +88,15 @@ class __$HerbicideCopyWithImpl<$Res> extends _$HerbicideCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = freezed,
     Object? description = freezed,
   }) {
     return _then(_Herbicide(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -101,11 +112,15 @@ class __$HerbicideCopyWithImpl<$Res> extends _$HerbicideCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Herbicide implements _Herbicide {
-  const _$_Herbicide({this.name = 'Other', this.description = ''});
+  const _$_Herbicide(
+      {this.id = '', this.name = 'Other', this.description = ''});
 
   factory _$_Herbicide.fromJson(Map<String, dynamic> json) =>
       _$$_HerbicideFromJson(json);
 
+  @override
+  @JsonKey()
+  final String id;
   @override
   @JsonKey()
   final String name;
@@ -115,7 +130,7 @@ class _$_Herbicide implements _Herbicide {
 
   @override
   String toString() {
-    return 'Herbicide(name: $name, description: $description)';
+    return 'Herbicide(id: $id, name: $name, description: $description)';
   }
 
   @override
@@ -123,6 +138,7 @@ class _$_Herbicide implements _Herbicide {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Herbicide &&
+            const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.description, description));
@@ -132,6 +148,7 @@ class _$_Herbicide implements _Herbicide {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(description));
 
@@ -147,12 +164,16 @@ class _$_Herbicide implements _Herbicide {
 }
 
 abstract class _Herbicide implements Herbicide {
-  const factory _Herbicide({final String name, final String description}) =
-      _$_Herbicide;
+  const factory _Herbicide(
+      {final String id,
+      final String name,
+      final String description}) = _$_Herbicide;
 
   factory _Herbicide.fromJson(Map<String, dynamic> json) =
       _$_Herbicide.fromJson;
 
+  @override
+  String get id => throw _privateConstructorUsedError;
   @override
   String get name => throw _privateConstructorUsedError;
   @override

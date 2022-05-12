@@ -21,8 +21,8 @@ Field _$FieldFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Field {
   String get id => throw _privateConstructorUsedError;
-  CropType get cropType => throw _privateConstructorUsedError;
-  Herbicide get herbicide => throw _privateConstructorUsedError;
+  String get cropTypeId => throw _privateConstructorUsedError;
+  String get herbicideId => throw _privateConstructorUsedError;
   List<Geo> get mapPoints => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,10 +35,7 @@ abstract class $FieldCopyWith<$Res> {
   factory $FieldCopyWith(Field value, $Res Function(Field) then) =
       _$FieldCopyWithImpl<$Res>;
   $Res call(
-      {String id, CropType cropType, Herbicide herbicide, List<Geo> mapPoints});
-
-  $CropTypeCopyWith<$Res> get cropType;
-  $HerbicideCopyWith<$Res> get herbicide;
+      {String id, String cropTypeId, String herbicideId, List<Geo> mapPoints});
 }
 
 /// @nodoc
@@ -52,8 +49,8 @@ class _$FieldCopyWithImpl<$Res> implements $FieldCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
-    Object? cropType = freezed,
-    Object? herbicide = freezed,
+    Object? cropTypeId = freezed,
+    Object? herbicideId = freezed,
     Object? mapPoints = freezed,
   }) {
     return _then(_value.copyWith(
@@ -61,33 +58,19 @@ class _$FieldCopyWithImpl<$Res> implements $FieldCopyWith<$Res> {
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      cropType: cropType == freezed
-          ? _value.cropType
-          : cropType // ignore: cast_nullable_to_non_nullable
-              as CropType,
-      herbicide: herbicide == freezed
-          ? _value.herbicide
-          : herbicide // ignore: cast_nullable_to_non_nullable
-              as Herbicide,
+      cropTypeId: cropTypeId == freezed
+          ? _value.cropTypeId
+          : cropTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
+      herbicideId: herbicideId == freezed
+          ? _value.herbicideId
+          : herbicideId // ignore: cast_nullable_to_non_nullable
+              as String,
       mapPoints: mapPoints == freezed
           ? _value.mapPoints
           : mapPoints // ignore: cast_nullable_to_non_nullable
               as List<Geo>,
     ));
-  }
-
-  @override
-  $CropTypeCopyWith<$Res> get cropType {
-    return $CropTypeCopyWith<$Res>(_value.cropType, (value) {
-      return _then(_value.copyWith(cropType: value));
-    });
-  }
-
-  @override
-  $HerbicideCopyWith<$Res> get herbicide {
-    return $HerbicideCopyWith<$Res>(_value.herbicide, (value) {
-      return _then(_value.copyWith(herbicide: value));
-    });
   }
 }
 
@@ -97,12 +80,7 @@ abstract class _$FieldCopyWith<$Res> implements $FieldCopyWith<$Res> {
       __$FieldCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id, CropType cropType, Herbicide herbicide, List<Geo> mapPoints});
-
-  @override
-  $CropTypeCopyWith<$Res> get cropType;
-  @override
-  $HerbicideCopyWith<$Res> get herbicide;
+      {String id, String cropTypeId, String herbicideId, List<Geo> mapPoints});
 }
 
 /// @nodoc
@@ -117,8 +95,8 @@ class __$FieldCopyWithImpl<$Res> extends _$FieldCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? cropType = freezed,
-    Object? herbicide = freezed,
+    Object? cropTypeId = freezed,
+    Object? herbicideId = freezed,
     Object? mapPoints = freezed,
   }) {
     return _then(_Field(
@@ -126,14 +104,14 @@ class __$FieldCopyWithImpl<$Res> extends _$FieldCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      cropType: cropType == freezed
-          ? _value.cropType
-          : cropType // ignore: cast_nullable_to_non_nullable
-              as CropType,
-      herbicide: herbicide == freezed
-          ? _value.herbicide
-          : herbicide // ignore: cast_nullable_to_non_nullable
-              as Herbicide,
+      cropTypeId: cropTypeId == freezed
+          ? _value.cropTypeId
+          : cropTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
+      herbicideId: herbicideId == freezed
+          ? _value.herbicideId
+          : herbicideId // ignore: cast_nullable_to_non_nullable
+              as String,
       mapPoints: mapPoints == freezed
           ? _value.mapPoints
           : mapPoints // ignore: cast_nullable_to_non_nullable
@@ -146,9 +124,9 @@ class __$FieldCopyWithImpl<$Res> extends _$FieldCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Field implements _Field {
   const _$_Field(
-      {required this.id,
-      required this.cropType,
-      required this.herbicide,
+      {this.id = '',
+      required this.cropTypeId,
+      required this.herbicideId,
       required final List<Geo> mapPoints})
       : _mapPoints = mapPoints;
 
@@ -156,11 +134,12 @@ class _$_Field implements _Field {
       _$$_FieldFromJson(json);
 
   @override
+  @JsonKey()
   final String id;
   @override
-  final CropType cropType;
+  final String cropTypeId;
   @override
-  final Herbicide herbicide;
+  final String herbicideId;
   final List<Geo> _mapPoints;
   @override
   List<Geo> get mapPoints {
@@ -170,7 +149,7 @@ class _$_Field implements _Field {
 
   @override
   String toString() {
-    return 'Field(id: $id, cropType: $cropType, herbicide: $herbicide, mapPoints: $mapPoints)';
+    return 'Field(id: $id, cropTypeId: $cropTypeId, herbicideId: $herbicideId, mapPoints: $mapPoints)';
   }
 
   @override
@@ -179,8 +158,10 @@ class _$_Field implements _Field {
         (other.runtimeType == runtimeType &&
             other is _Field &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.cropType, cropType) &&
-            const DeepCollectionEquality().equals(other.herbicide, herbicide) &&
+            const DeepCollectionEquality()
+                .equals(other.cropTypeId, cropTypeId) &&
+            const DeepCollectionEquality()
+                .equals(other.herbicideId, herbicideId) &&
             const DeepCollectionEquality().equals(other.mapPoints, mapPoints));
   }
 
@@ -189,8 +170,8 @@ class _$_Field implements _Field {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(cropType),
-      const DeepCollectionEquality().hash(herbicide),
+      const DeepCollectionEquality().hash(cropTypeId),
+      const DeepCollectionEquality().hash(herbicideId),
       const DeepCollectionEquality().hash(mapPoints));
 
   @JsonKey(ignore: true)
@@ -206,9 +187,9 @@ class _$_Field implements _Field {
 
 abstract class _Field implements Field {
   const factory _Field(
-      {required final String id,
-      required final CropType cropType,
-      required final Herbicide herbicide,
+      {final String id,
+      required final String cropTypeId,
+      required final String herbicideId,
       required final List<Geo> mapPoints}) = _$_Field;
 
   factory _Field.fromJson(Map<String, dynamic> json) = _$_Field.fromJson;
@@ -216,9 +197,9 @@ abstract class _Field implements Field {
   @override
   String get id => throw _privateConstructorUsedError;
   @override
-  CropType get cropType => throw _privateConstructorUsedError;
+  String get cropTypeId => throw _privateConstructorUsedError;
   @override
-  Herbicide get herbicide => throw _privateConstructorUsedError;
+  String get herbicideId => throw _privateConstructorUsedError;
   @override
   List<Geo> get mapPoints => throw _privateConstructorUsedError;
   @override

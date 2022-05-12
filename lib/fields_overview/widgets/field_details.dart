@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:root_gorge/edit_field/view/edit_field_page.dart';
+import 'package:root_gorge/models/crop_type.dart';
 import 'package:root_gorge/models/field.dart';
 
 class FieldDetails extends StatelessWidget {
-  const FieldDetails({Key? key, required this.field}) : super(key: key);
+  const FieldDetails({
+    Key? key,
+    required this.field,
+    required this.cropType,
+  }) : super(key: key);
 
   final Field field;
+  final CropType cropType;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +53,11 @@ class FieldDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Crop Type: ${field.cropType.name}',
+              'Crop Type: ${cropType.name}',
             ),
             const SizedBox(height: 5),
             Text(
-              'Herbicide: ${field.herbicide.name}',
+              'Herbicide: ${field.herbicideId}',
             ),
           ],
         )

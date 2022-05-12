@@ -23,24 +23,24 @@ class EditFieldMapPointsChanged extends EditFieldEvent {
 }
 
 class EditFieldCropTypeChanged extends EditFieldEvent {
-  const EditFieldCropTypeChanged(this.cropType);
+  const EditFieldCropTypeChanged(this.cropTypeId);
 
-  final CropType cropType;
+  final String cropTypeId;
 
   @override
-  List<Object> get props => [cropType];
+  List<Object> get props => [cropTypeId];
 
   @override
   String toString() => 'EditFieldCropTypeChanged';
 }
 
 class EditFieldHerbicideChanged extends EditFieldEvent {
-  const EditFieldHerbicideChanged(this.herbicide);
+  const EditFieldHerbicideChanged(this.herbicideId);
 
-  final Herbicide herbicide;
+  final String herbicideId;
 
   @override
-  List<Object> get props => [herbicide];
+  List<Object> get props => [herbicideId];
 
   @override
   String toString() => 'EditFieldHerbicideChanged';

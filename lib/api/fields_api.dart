@@ -1,4 +1,6 @@
+import 'package:root_gorge/models/crop_type.dart';
 import 'package:root_gorge/models/field.dart';
+import 'package:root_gorge/models/herbicide.dart';
 
 /// {@template fields_api}
 /// The interface for an API that provides access to a list of fields.
@@ -7,8 +9,14 @@ abstract class FieldsApi {
   /// {@macro fields_api}
   const FieldsApi();
 
-  /// Provides a [Stream] of all fields.
+  /// Provides a [Stream] of all [Field]s.
   Stream<List<Field>> getFields();
+
+  /// Provides a [Stream] of all [CropType]s.
+  Stream<List<CropType>> getCropTypes();
+
+  /// Provides a [Stream] of all [Herbicide]s.
+  Stream<List<Herbicide>> getHerbicides();
 
   /// Updates the [field].
   Future<void> updateField(Field field);

@@ -71,11 +71,11 @@ class EditFieldView extends StatelessWidget {
             children: cropTypes
                 .map(
                   (CropType cropType) => FilterChip(
-                    selected: state.cropType == cropType,
+                    selected: state.cropTypeId == cropType.id,
                     label: Text(cropType.name),
                     onSelected: (_) {
                       context.read<EditFieldBloc>().add(
-                            EditFieldCropTypeChanged(cropType),
+                            EditFieldCropTypeChanged(cropType.id),
                           );
                     },
                   ),
@@ -94,12 +94,12 @@ class EditFieldView extends StatelessWidget {
             children: herbicides
                 .map(
                   (Herbicide herbicideType) => FilterChip(
-                    selected: state.herbicide == herbicideType,
+                    selected: state.herbicideId == herbicideType.id,
                     label: Text(herbicideType.name),
                     onSelected: (_) {
                       context
                           .read<EditFieldBloc>()
-                          .add(EditFieldHerbicideChanged(herbicideType));
+                          .add(EditFieldHerbicideChanged(herbicideType.id));
                     },
                   ),
                 )

@@ -1,5 +1,7 @@
 import 'package:root_gorge/api/fields_api.dart';
+import 'package:root_gorge/models/crop_type.dart';
 import 'package:root_gorge/models/field.dart';
+import 'package:root_gorge/models/herbicide.dart';
 
 /// {@template fields_repository}
 /// A repository that handles field related requests.
@@ -14,6 +16,12 @@ class FieldsRepository {
 
   /// Provides a [Stream] of all fields.
   Stream<List<Field>> getFields() => _fieldsApi.getFields();
+
+  /// Provides a [Stream] of all [CropType]s.
+  Stream<List<CropType>> getCropTypes() => _fieldsApi.getCropTypes();
+
+  /// Provides a [Stream] of all [Herbicide]s.
+  Stream<List<Herbicide>> getHerbicides() => _fieldsApi.getHerbicides();
 
   /// Updates the [field].
   Future<void> updateField(Field field) => _fieldsApi.updateField(field);

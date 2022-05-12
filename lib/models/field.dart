@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:root_gorge/models/crop_type.dart';
 import 'package:root_gorge/models/geo.dart';
-import 'package:root_gorge/models/herbicide.dart';
 
 part 'field.freezed.dart';
 part 'field.g.dart';
@@ -10,9 +8,9 @@ part 'field.g.dart';
 @freezed
 class Field with _$Field {
   const factory Field({
-    required String id,
-    required CropType cropType,
-    required Herbicide herbicide,
+    @Default('') String id,
+    required String cropTypeId,
+    required String herbicideId,
     required List<Geo> mapPoints,
   }) = _Field;
 
@@ -30,8 +28,8 @@ class Field with _$Field {
   factory Field.empty() {
     return const Field(
       id: '',
-      cropType: CropType(),
-      herbicide: Herbicide(),
+      cropTypeId: '',
+      herbicideId: '',
       mapPoints: [],
     );
   }

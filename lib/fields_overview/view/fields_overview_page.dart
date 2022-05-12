@@ -12,7 +12,10 @@ class FieldsOverviewPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => FieldsOverviewBloc(
         fieldsRepository: context.read<FieldsRepository>(),
-      )..add(const FieldsOverviewSubscriptionRequested()),
+      )
+        ..add(const FieldSubscriptionRequested())
+        ..add(const CropTypeSubscriptionRequested())
+        ..add(const HerbicideSubscriptionRequested()),
       child: BlocListener<FieldsOverviewBloc, FieldsOverviewState>(
         listener: (context, state) {
           if (state.status == FieldsOverviewStatus.failure) {

@@ -7,9 +7,9 @@ part of 'field.dart';
 // **************************************************************************
 
 _$_Field _$$_FieldFromJson(Map<String, dynamic> json) => _$_Field(
-      id: json['id'] as String,
-      cropType: CropType.fromJson(json['cropType'] as Map<String, dynamic>),
-      herbicide: Herbicide.fromJson(json['herbicide'] as Map<String, dynamic>),
+      id: json['id'] as String? ?? '',
+      cropTypeId: json['cropTypeId'] as String,
+      herbicideId: json['herbicideId'] as String,
       mapPoints: (json['mapPoints'] as List<dynamic>)
           .map((e) => Geo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17,7 +17,7 @@ _$_Field _$$_FieldFromJson(Map<String, dynamic> json) => _$_Field(
 
 Map<String, dynamic> _$$_FieldToJson(_$_Field instance) => <String, dynamic>{
       'id': instance.id,
-      'cropType': instance.cropType,
-      'herbicide': instance.herbicide,
+      'cropTypeId': instance.cropTypeId,
+      'herbicideId': instance.herbicideId,
       'mapPoints': instance.mapPoints,
     };
