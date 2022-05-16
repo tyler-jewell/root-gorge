@@ -62,28 +62,28 @@ class _$GeoCopyWithImpl<$Res> implements $GeoCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$GeoCopyWith<$Res> implements $GeoCopyWith<$Res> {
-  factory _$GeoCopyWith(_Geo value, $Res Function(_Geo) then) =
-      __$GeoCopyWithImpl<$Res>;
+abstract class _$$_GeoCopyWith<$Res> implements $GeoCopyWith<$Res> {
+  factory _$$_GeoCopyWith(_$_Geo value, $Res Function(_$_Geo) then) =
+      __$$_GeoCopyWithImpl<$Res>;
   @override
   $Res call({double latitude, double longitude});
 }
 
 /// @nodoc
-class __$GeoCopyWithImpl<$Res> extends _$GeoCopyWithImpl<$Res>
-    implements _$GeoCopyWith<$Res> {
-  __$GeoCopyWithImpl(_Geo _value, $Res Function(_Geo) _then)
-      : super(_value, (v) => _then(v as _Geo));
+class __$$_GeoCopyWithImpl<$Res> extends _$GeoCopyWithImpl<$Res>
+    implements _$$_GeoCopyWith<$Res> {
+  __$$_GeoCopyWithImpl(_$_Geo _value, $Res Function(_$_Geo) _then)
+      : super(_value, (v) => _then(v as _$_Geo));
 
   @override
-  _Geo get _value => super._value as _Geo;
+  _$_Geo get _value => super._value as _$_Geo;
 
   @override
   $Res call({
     Object? latitude = freezed,
     Object? longitude = freezed,
   }) {
-    return _then(_Geo(
+    return _then(_$_Geo(
       latitude: latitude == freezed
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
@@ -119,7 +119,7 @@ class _$_Geo implements _Geo {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Geo &&
+            other is _$_Geo &&
             const DeepCollectionEquality().equals(other.latitude, latitude) &&
             const DeepCollectionEquality().equals(other.longitude, longitude));
   }
@@ -133,8 +133,8 @@ class _$_Geo implements _Geo {
 
   @JsonKey(ignore: true)
   @override
-  _$GeoCopyWith<_Geo> get copyWith =>
-      __$GeoCopyWithImpl<_Geo>(this, _$identity);
+  _$$_GeoCopyWith<_$_Geo> get copyWith =>
+      __$$_GeoCopyWithImpl<_$_Geo>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -153,5 +153,5 @@ abstract class _Geo implements Geo {
   double get longitude => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$GeoCopyWith<_Geo> get copyWith => throw _privateConstructorUsedError;
+  _$$_GeoCopyWith<_$_Geo> get copyWith => throw _privateConstructorUsedError;
 }

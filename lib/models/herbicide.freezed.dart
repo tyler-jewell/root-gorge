@@ -69,22 +69,23 @@ class _$HerbicideCopyWithImpl<$Res> implements $HerbicideCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$HerbicideCopyWith<$Res> implements $HerbicideCopyWith<$Res> {
-  factory _$HerbicideCopyWith(
-          _Herbicide value, $Res Function(_Herbicide) then) =
-      __$HerbicideCopyWithImpl<$Res>;
+abstract class _$$_HerbicideCopyWith<$Res> implements $HerbicideCopyWith<$Res> {
+  factory _$$_HerbicideCopyWith(
+          _$_Herbicide value, $Res Function(_$_Herbicide) then) =
+      __$$_HerbicideCopyWithImpl<$Res>;
   @override
   $Res call({String id, String name, String description});
 }
 
 /// @nodoc
-class __$HerbicideCopyWithImpl<$Res> extends _$HerbicideCopyWithImpl<$Res>
-    implements _$HerbicideCopyWith<$Res> {
-  __$HerbicideCopyWithImpl(_Herbicide _value, $Res Function(_Herbicide) _then)
-      : super(_value, (v) => _then(v as _Herbicide));
+class __$$_HerbicideCopyWithImpl<$Res> extends _$HerbicideCopyWithImpl<$Res>
+    implements _$$_HerbicideCopyWith<$Res> {
+  __$$_HerbicideCopyWithImpl(
+      _$_Herbicide _value, $Res Function(_$_Herbicide) _then)
+      : super(_value, (v) => _then(v as _$_Herbicide));
 
   @override
-  _Herbicide get _value => super._value as _Herbicide;
+  _$_Herbicide get _value => super._value as _$_Herbicide;
 
   @override
   $Res call({
@@ -92,7 +93,7 @@ class __$HerbicideCopyWithImpl<$Res> extends _$HerbicideCopyWithImpl<$Res>
     Object? name = freezed,
     Object? description = freezed,
   }) {
-    return _then(_Herbicide(
+    return _then(_$_Herbicide(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -137,7 +138,7 @@ class _$_Herbicide implements _Herbicide {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Herbicide &&
+            other is _$_Herbicide &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
@@ -154,8 +155,8 @@ class _$_Herbicide implements _Herbicide {
 
   @JsonKey(ignore: true)
   @override
-  _$HerbicideCopyWith<_Herbicide> get copyWith =>
-      __$HerbicideCopyWithImpl<_Herbicide>(this, _$identity);
+  _$$_HerbicideCopyWith<_$_Herbicide> get copyWith =>
+      __$$_HerbicideCopyWithImpl<_$_Herbicide>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -180,6 +181,6 @@ abstract class _Herbicide implements Herbicide {
   String get description => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$HerbicideCopyWith<_Herbicide> get copyWith =>
+  _$$_HerbicideCopyWith<_$_Herbicide> get copyWith =>
       throw _privateConstructorUsedError;
 }

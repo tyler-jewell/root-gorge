@@ -75,22 +75,22 @@ class _$FieldCopyWithImpl<$Res> implements $FieldCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$FieldCopyWith<$Res> implements $FieldCopyWith<$Res> {
-  factory _$FieldCopyWith(_Field value, $Res Function(_Field) then) =
-      __$FieldCopyWithImpl<$Res>;
+abstract class _$$_FieldCopyWith<$Res> implements $FieldCopyWith<$Res> {
+  factory _$$_FieldCopyWith(_$_Field value, $Res Function(_$_Field) then) =
+      __$$_FieldCopyWithImpl<$Res>;
   @override
   $Res call(
       {String id, String cropTypeId, String herbicideId, List<Geo> mapPoints});
 }
 
 /// @nodoc
-class __$FieldCopyWithImpl<$Res> extends _$FieldCopyWithImpl<$Res>
-    implements _$FieldCopyWith<$Res> {
-  __$FieldCopyWithImpl(_Field _value, $Res Function(_Field) _then)
-      : super(_value, (v) => _then(v as _Field));
+class __$$_FieldCopyWithImpl<$Res> extends _$FieldCopyWithImpl<$Res>
+    implements _$$_FieldCopyWith<$Res> {
+  __$$_FieldCopyWithImpl(_$_Field _value, $Res Function(_$_Field) _then)
+      : super(_value, (v) => _then(v as _$_Field));
 
   @override
-  _Field get _value => super._value as _Field;
+  _$_Field get _value => super._value as _$_Field;
 
   @override
   $Res call({
@@ -99,7 +99,7 @@ class __$FieldCopyWithImpl<$Res> extends _$FieldCopyWithImpl<$Res>
     Object? herbicideId = freezed,
     Object? mapPoints = freezed,
   }) {
-    return _then(_Field(
+    return _then(_$_Field(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -113,7 +113,7 @@ class __$FieldCopyWithImpl<$Res> extends _$FieldCopyWithImpl<$Res>
           : herbicideId // ignore: cast_nullable_to_non_nullable
               as String,
       mapPoints: mapPoints == freezed
-          ? _value.mapPoints
+          ? _value._mapPoints
           : mapPoints // ignore: cast_nullable_to_non_nullable
               as List<Geo>,
     ));
@@ -156,13 +156,14 @@ class _$_Field implements _Field {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Field &&
+            other is _$_Field &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality()
                 .equals(other.cropTypeId, cropTypeId) &&
             const DeepCollectionEquality()
                 .equals(other.herbicideId, herbicideId) &&
-            const DeepCollectionEquality().equals(other.mapPoints, mapPoints));
+            const DeepCollectionEquality()
+                .equals(other._mapPoints, _mapPoints));
   }
 
   @JsonKey(ignore: true)
@@ -172,12 +173,12 @@ class _$_Field implements _Field {
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(cropTypeId),
       const DeepCollectionEquality().hash(herbicideId),
-      const DeepCollectionEquality().hash(mapPoints));
+      const DeepCollectionEquality().hash(_mapPoints));
 
   @JsonKey(ignore: true)
   @override
-  _$FieldCopyWith<_Field> get copyWith =>
-      __$FieldCopyWithImpl<_Field>(this, _$identity);
+  _$$_FieldCopyWith<_$_Field> get copyWith =>
+      __$$_FieldCopyWithImpl<_$_Field>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -204,5 +205,6 @@ abstract class _Field implements Field {
   List<Geo> get mapPoints => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$FieldCopyWith<_Field> get copyWith => throw _privateConstructorUsedError;
+  _$$_FieldCopyWith<_$_Field> get copyWith =>
+      throw _privateConstructorUsedError;
 }
