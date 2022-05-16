@@ -26,6 +26,7 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
     on<EditFieldCropTypeChanged>(_onCropTypeChanged);
     on<EditFieldHerbicideChanged>(_onHerbicideChanged);
     on<EditFieldSubmitted>(_onSubmitted);
+    on<EditFieldRequested>(_onEditFieldRequested);
   }
 
   final FieldsRepository _fieldsRepository;
@@ -65,14 +66,29 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
     );
 
     try {
-      if (state.isNewField) {
-        await _fieldsRepository.updateField(field);
-      } else {
-        await _fieldsRepository.updateField(field);
-      }
+      await _fieldsRepository.updateField(field);
       emit(state.copyWith(status: EditFieldStatus.success));
     } catch (e) {
       emit(state.copyWith(status: EditFieldStatus.failure));
     }
+  }
+
+  Future<void> _onEditFieldRequested(
+    EditFieldRequested event,
+    Emitter<EditFieldState> emit,
+  ) async {
+    emit(state.copyWith(status: EditFieldStatus.loading));
+
+    final cropTypes = await _fieldsRepository.getCropTypes();
+
+    final herbicides = await _fieldsRepository.getHerbicides();
+
+    emit(
+      state.copyWith(
+        status: EditFieldStatus.success,
+        cropTypes: cropTypes,
+        herbicides: herbicides,
+      ),
+    );
   }
 }

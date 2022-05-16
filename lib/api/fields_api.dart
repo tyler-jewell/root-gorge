@@ -10,13 +10,13 @@ abstract class FieldsApi {
   const FieldsApi();
 
   /// Provides a [Stream] of all [Field]s.
-  Stream<List<Field>> getFields();
+  Future<List<Field>> getFields();
 
   /// Provides a [Stream] of all [CropType]s.
-  Stream<List<CropType>> getCropTypes();
+  Future<List<CropType>> getCropTypes();
 
   /// Provides a [Stream] of all [Herbicide]s.
-  Stream<List<Herbicide>> getHerbicides();
+  Future<List<Herbicide>> getHerbicides();
 
   /// Updates the [field].
   Future<void> updateField(Field field);

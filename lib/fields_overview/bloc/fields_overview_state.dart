@@ -16,20 +16,24 @@ class FieldsOverviewState extends Equatable {
   final List<Herbicide> herbicides;
 
   CropType cropTypeFromId(String cropTypeId) {
-    return cropTypes.where((cropType) => cropType.id == cropTypeId).first;
+    return cropTypes.firstWhere((cropType) => cropType.id == cropTypeId);
+  }
+
+  Herbicide herbicideFromId(String herbideId) {
+    return herbicides.firstWhere((herbicide) => herbicide.id == herbideId);
   }
 
   FieldsOverviewState copyWith({
-    FieldsOverviewStatus Function()? status,
-    List<Field> Function()? fields,
-    List<CropType> Function()? cropTypes,
-    List<Herbicide> Function()? herbicides,
+    FieldsOverviewStatus? status,
+    List<Field>? fields,
+    List<CropType>? cropTypes,
+    List<Herbicide>? herbicides,
   }) {
     return FieldsOverviewState(
-      status: status != null ? status() : this.status,
-      fields: fields != null ? fields() : this.fields,
-      cropTypes: cropTypes != null ? cropTypes() : this.cropTypes,
-      herbicides: herbicides != null ? herbicides() : this.herbicides,
+      status: status ?? this.status,
+      fields: fields ?? this.fields,
+      cropTypes: cropTypes ?? this.cropTypes,
+      herbicides: herbicides ?? this.herbicides,
     );
   }
 

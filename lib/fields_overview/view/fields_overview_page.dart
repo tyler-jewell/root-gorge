@@ -12,10 +12,7 @@ class FieldsOverviewPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => FieldsOverviewBloc(
         fieldsRepository: context.read<FieldsRepository>(),
-      )
-        ..add(const FieldSubscriptionRequested())
-        ..add(const CropTypeSubscriptionRequested())
-        ..add(const HerbicideSubscriptionRequested()),
+      )..add(const FieldSubscriptionRequested()),
       child: BlocListener<FieldsOverviewBloc, FieldsOverviewState>(
         listener: (context, state) {
           if (state.status == FieldsOverviewStatus.failure) {
@@ -47,7 +44,7 @@ class FieldsOverviewView extends StatelessWidget {
               state.status == FieldsOverviewStatus.initial) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            return FieldsMap(fields: state.fields);
+            return const FieldsMap();
           }
         },
       ),

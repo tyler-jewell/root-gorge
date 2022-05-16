@@ -3,16 +3,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:root_gorge/edit_field/view/edit_field_page.dart';
 import 'package:root_gorge/models/crop_type.dart';
 import 'package:root_gorge/models/field.dart';
+import 'package:root_gorge/models/herbicide.dart';
 
 class FieldDetails extends StatelessWidget {
   const FieldDetails({
     Key? key,
     required this.field,
     required this.cropType,
+    required this.herbicide,
   }) : super(key: key);
 
   final Field field;
   final CropType cropType;
+  final Herbicide herbicide;
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +55,9 @@ class FieldDetails extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'Crop Type: ${cropType.name}',
-            ),
+            Text('Crop Type: ${cropType.name}'),
             const SizedBox(height: 5),
-            Text(
-              'Herbicide: ${field.herbicideId}',
-            ),
+            Text('Herbicide: ${herbicide.name}'),
           ],
         )
       ],

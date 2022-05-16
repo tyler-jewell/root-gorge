@@ -6,9 +6,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-final cropTypes = ['Corn', 'Wheat', 'Soybeans', 'GMO', 'Organic', 'Other'];
-final herbicideTypes = ['Dicamba', 'Enlist', 'Roundup', 'Other'];
-
 class Field {
   Field({
     required this.fieldId,
@@ -193,19 +190,20 @@ class _FieldMapViewState extends State<FieldMapView> {
         Wrap(
           spacing: 10,
           runSpacing: 10,
-          children: cropTypes
-              .map(
-                (String cropType) => FilterChip(
-                  selected: selectedCropType == cropType,
-                  label: Text(cropType),
-                  onSelected: (_) {
-                    setState(() {
-                      selectedCropType = cropType;
-                    });
-                  },
-                ),
-              )
-              .toList(),
+          children: const [Text('Fix this')],
+          // children: cropTypes
+          //     .map(
+          //       (String cropType) => FilterChip(
+          //         selected: selectedCropType == cropType,
+          //         label: Text(cropType),
+          //         onSelected: (_) {
+          //           setState(() {
+          //             selectedCropType = cropType;
+          //           });
+          //         },
+          //       ),
+          //     )
+          //     .toList(),
         ),
         const SizedBox(height: 8),
         Text(
@@ -216,19 +214,20 @@ class _FieldMapViewState extends State<FieldMapView> {
         Wrap(
           spacing: 10,
           runSpacing: 10,
-          children: herbicideTypes
-              .map(
-                (String herbicideType) => FilterChip(
-                  selected: selectedHerbicideType == herbicideType,
-                  label: Text(herbicideType),
-                  onSelected: (_) {
-                    setState(() {
-                      selectedHerbicideType = herbicideType;
-                    });
-                  },
-                ),
-              )
-              .toList(),
+          children: const [Text('Fix this')],
+          // children: herbicideTypes
+          //     .map(
+          //       (String herbicideType) => FilterChip(
+          //         selected: selectedHerbicideType == herbicideType,
+          //         label: Text(herbicideType),
+          //         onSelected: (_) {
+          //           setState(() {
+          //             selectedHerbicideType = herbicideType;
+          //           });
+          //         },
+          //       ),
+          //     )
+          //     .toList(),
         ),
         const SizedBox(height: 16),
         Center(

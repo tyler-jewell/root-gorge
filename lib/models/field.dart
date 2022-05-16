@@ -6,6 +6,7 @@ part 'field.freezed.dart';
 part 'field.g.dart';
 
 @freezed
+@JsonSerializable(explicitToJson: true)
 class Field with _$Field {
   const factory Field({
     @Default('') String id,

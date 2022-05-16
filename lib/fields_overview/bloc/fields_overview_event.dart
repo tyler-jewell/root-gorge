@@ -10,11 +10,3 @@ abstract class FieldsOverviewEvent extends Equatable {
 class FieldSubscriptionRequested extends FieldsOverviewEvent {
   const FieldSubscriptionRequested();
 }
-
-class CropTypeSubscriptionRequested extends FieldsOverviewEvent {
-  const CropTypeSubscriptionRequested();
-}
-
-class HerbicideSubscriptionRequested extends FieldsOverviewEvent {
-  const HerbicideSubscriptionRequested();
-}

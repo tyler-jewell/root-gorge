@@ -9,6 +9,8 @@ class EditFieldState extends Equatable {
     this.mapPoints = const <Geo>[],
     this.cropTypeId = '',
     this.herbicideId = '',
+    this.cropTypes = const [],
+    this.herbicides = const [],
   });
 
   final EditFieldStatus status;
@@ -16,6 +18,8 @@ class EditFieldState extends Equatable {
   final String cropTypeId;
   final String herbicideId;
   final Field? initialField;
+  final List<CropType> cropTypes;
+  final List<Herbicide> herbicides;
 
   bool get isNewField => false;
 
@@ -25,6 +29,8 @@ class EditFieldState extends Equatable {
     List<Geo>? mapPoints,
     String? cropTypeId,
     String? herbicideId,
+    List<CropType>? cropTypes,
+    List<Herbicide>? herbicides,
   }) {
     return EditFieldState(
       status: status ?? this.status,
@@ -32,6 +38,8 @@ class EditFieldState extends Equatable {
       mapPoints: mapPoints ?? this.mapPoints,
       cropTypeId: cropTypeId ?? this.cropTypeId,
       herbicideId: herbicideId ?? this.herbicideId,
+      cropTypes: cropTypes ?? this.cropTypes,
+      herbicides: herbicides ?? this.herbicides,
     );
   }
 
@@ -42,5 +50,7 @@ class EditFieldState extends Equatable {
         mapPoints,
         cropTypeId,
         herbicideId,
+        cropTypes,
+        herbicides,
       ];
 }

@@ -50,3 +50,8 @@ class EditFieldSubmitted extends EditFieldEvent {
   @override
   String toString() => 'EditFieldSubmitted';
 }
+
+class EditFieldRequested extends EditFieldEvent {
+  @override
+  String toString() => 'EditFieldRequested';
+}

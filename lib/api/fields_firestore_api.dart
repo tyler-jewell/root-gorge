@@ -24,32 +24,25 @@ class FirestoreFieldsApi extends FieldsApi {
       FirebaseFirestore.instance.collection('herbicides');
 
   @override
-  Stream<List<Field>> getFields() {
-    return fieldsCollection.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
-        return Field.fromDocument(doc);
-      }).toList();
-    });
+  Future<List<Field>> getFields() {
+    return fieldsCollection.get().then(
+          (snapshot) => snapshot.docs.map(Field.fromDocument).toList(),
+        );
   }
 
   @override
-  Stream<List<CropType>> getCropTypes() =>
-      cropTypeCollection.snapshots().map((snapshot) {
-        return snapshot.docs.map((doc) {
-          return CropType.fromDocument(doc);
-        }).toList();
-      });
+  Future<List<CropType>> getCropTypes() => cropTypeCollection.get().then(
+        (snapshot) => snapshot.docs.map(CropType.fromDocument).toList(),
+      );
 
   @override
-  Stream<List<Herbicide>> getHerbicides() =>
-      herbicideCollection.snapshots().map((snapshot) {
-        return snapshot.docs.map((doc) {
-          return Herbicide.fromDocument(doc);
-        }).toList();
-      });
+  Future<List<Herbicide>> getHerbicides() => herbicideCollection.get().then(
+        (snapshot) => snapshot.docs.map(Herbicide.fromDocument).toList(),
+      );
 
   @override
   Future<void> updateField(Field field) async {
+    print(field.toJson());
     await fieldsCollection.doc(field.id).update(field.toJson());
   }
 

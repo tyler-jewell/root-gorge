@@ -15,13 +15,13 @@ class FieldsRepository {
   final FieldsApi _fieldsApi;
 
   /// Provides a [Stream] of all fields.
-  Stream<List<Field>> getFields() => _fieldsApi.getFields();
+  Future<List<Field>> getFields() => _fieldsApi.getFields();
 
   /// Provides a [Stream] of all [CropType]s.
-  Stream<List<CropType>> getCropTypes() => _fieldsApi.getCropTypes();
+  Future<List<CropType>> getCropTypes() => _fieldsApi.getCropTypes();
 
   /// Provides a [Stream] of all [Herbicide]s.
-  Stream<List<Herbicide>> getHerbicides() => _fieldsApi.getHerbicides();
+  Future<List<Herbicide>> getHerbicides() => _fieldsApi.getHerbicides();
 
   /// Updates the [field].
   Future<void> updateField(Field field) => _fieldsApi.updateField(field);
