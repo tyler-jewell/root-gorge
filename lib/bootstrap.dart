@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 
 import 'package:flutter/widgets.dart';
 import 'package:root_gorge/api/fields_api.dart';
+import 'package:root_gorge/api/location_api.dart';
 import 'package:root_gorge/app/app.dart';
 import 'package:root_gorge/repository/fields_repository.dart';
 
@@ -22,12 +23,16 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-void bootstrap({required FieldsApi fieldsApi}) {
+void bootstrap({
+  required FieldsApi fieldsApi,
+  required LocationApi locationApi,
+}) {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
-  final fieldsRepository = FieldsRepository(fieldsApi: fieldsApi);
+  final fieldsRepository =
+      FieldsRepository(fieldsApi: fieldsApi, locationApi: locationApi);
 
   runZonedGuarded(
     () async {

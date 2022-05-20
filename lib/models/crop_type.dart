@@ -10,6 +10,7 @@ class CropType with _$CropType {
     @Default('') String id,
     @Default('Other') String name,
     @Default('') String description,
+    @Default(0x3486E0) int color,
   }) = _CropType;
 
   factory CropType.fromDocument(DocumentSnapshot document) {

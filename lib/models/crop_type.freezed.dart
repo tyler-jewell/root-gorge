@@ -23,6 +23,7 @@ mixin _$CropType {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  int get color => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ mixin _$CropType {
 abstract class $CropTypeCopyWith<$Res> {
   factory $CropTypeCopyWith(CropType value, $Res Function(CropType) then) =
       _$CropTypeCopyWithImpl<$Res>;
-  $Res call({String id, String name, String description});
+  $Res call({String id, String name, String description, int color});
 }
 
 /// @nodoc
@@ -50,6 +51,7 @@ class _$CropTypeCopyWithImpl<$Res> implements $CropTypeCopyWith<$Res> {
     Object? id = freezed,
     Object? name = freezed,
     Object? description = freezed,
+    Object? color = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -64,6 +66,10 @@ class _$CropTypeCopyWithImpl<$Res> implements $CropTypeCopyWith<$Res> {
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      color: color == freezed
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -74,7 +80,7 @@ abstract class _$$_CropTypeCopyWith<$Res> implements $CropTypeCopyWith<$Res> {
           _$_CropType value, $Res Function(_$_CropType) then) =
       __$$_CropTypeCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String name, String description});
+  $Res call({String id, String name, String description, int color});
 }
 
 /// @nodoc
@@ -92,6 +98,7 @@ class __$$_CropTypeCopyWithImpl<$Res> extends _$CropTypeCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? description = freezed,
+    Object? color = freezed,
   }) {
     return _then(_$_CropType(
       id: id == freezed
@@ -106,6 +113,10 @@ class __$$_CropTypeCopyWithImpl<$Res> extends _$CropTypeCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      color: color == freezed
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -113,7 +124,11 @@ class __$$_CropTypeCopyWithImpl<$Res> extends _$CropTypeCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_CropType implements _CropType {
-  const _$_CropType({this.id = '', this.name = 'Other', this.description = ''});
+  const _$_CropType(
+      {this.id = '',
+      this.name = 'Other',
+      this.description = '',
+      this.color = 0x3486E0});
 
   factory _$_CropType.fromJson(Map<String, dynamic> json) =>
       _$$_CropTypeFromJson(json);
@@ -127,10 +142,13 @@ class _$_CropType implements _CropType {
   @override
   @JsonKey()
   final String description;
+  @override
+  @JsonKey()
+  final int color;
 
   @override
   String toString() {
-    return 'CropType(id: $id, name: $name, description: $description)';
+    return 'CropType(id: $id, name: $name, description: $description, color: $color)';
   }
 
   @override
@@ -141,7 +159,8 @@ class _$_CropType implements _CropType {
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
-                .equals(other.description, description));
+                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other.color, color));
   }
 
   @JsonKey(ignore: true)
@@ -150,7 +169,8 @@ class _$_CropType implements _CropType {
       runtimeType,
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(description));
+      const DeepCollectionEquality().hash(description),
+      const DeepCollectionEquality().hash(color));
 
   @JsonKey(ignore: true)
   @override
@@ -167,7 +187,8 @@ abstract class _CropType implements CropType {
   const factory _CropType(
       {final String id,
       final String name,
-      final String description}) = _$_CropType;
+      final String description,
+      final int color}) = _$_CropType;
 
   factory _CropType.fromJson(Map<String, dynamic> json) = _$_CropType.fromJson;
 
@@ -177,6 +198,8 @@ abstract class _CropType implements CropType {
   String get name => throw _privateConstructorUsedError;
   @override
   String get description => throw _privateConstructorUsedError;
+  @override
+  int get color => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_CropTypeCopyWith<_$_CropType> get copyWith =>

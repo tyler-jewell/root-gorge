@@ -10,3 +10,15 @@ abstract class FieldsOverviewEvent extends Equatable {
 class FieldSubscriptionRequested extends FieldsOverviewEvent {
   const FieldSubscriptionRequested();
 }
+
+class UserLocationRequested extends FieldsOverviewEvent {
+  const UserLocationRequested();
+}
+
+class EditFieldRequested extends FieldsOverviewEvent {
+  const EditFieldRequested();
+}
+
+class EditFieldSubmitted extends FieldsOverviewEvent {
+  const EditFieldSubmitted();
+}

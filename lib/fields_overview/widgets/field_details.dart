@@ -36,6 +36,7 @@ class FieldDetails extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).push(
                   EditFieldPage.route(initialField: field),
                 );

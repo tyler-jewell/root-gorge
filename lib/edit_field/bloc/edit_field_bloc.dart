@@ -85,7 +85,7 @@ class EditFieldBloc extends Bloc<EditFieldEvent, EditFieldState> {
 
     emit(
       state.copyWith(
-        status: EditFieldStatus.success,
+        status: EditFieldStatus.initial,
         cropTypes: cropTypes,
         herbicides: herbicides,
       ),

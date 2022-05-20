@@ -10,6 +10,7 @@ _$_CropType _$$_CropTypeFromJson(Map<String, dynamic> json) => _$_CropType(
       id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? 'Other',
       description: json['description'] as String? ?? '',
+      color: json['color'] as int? ?? 0x3486E0,
     );
 
 Map<String, dynamic> _$$_CropTypeToJson(_$_CropType instance) =>
@@ -17,4 +18,5 @@ Map<String, dynamic> _$$_CropTypeToJson(_$_CropType instance) =>
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
+      'color': instance.color,
     };

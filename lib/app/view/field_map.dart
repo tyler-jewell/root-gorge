@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class Field {
@@ -43,8 +42,6 @@ class FieldMapView extends StatefulWidget {
 class _FieldMapViewState extends State<FieldMapView> {
   late GoogleMapController _mapController;
   final PanelController _panelController = PanelController();
-
-  late Location _location;
 
   bool _editingField = false;
   bool _addingPoints = false;
@@ -120,29 +117,29 @@ class _FieldMapViewState extends State<FieldMapView> {
     }).toSet();
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
-    _location = Location();
-    _getUserLocation();
-  }
+  // void _onMapCreated(GoogleMapController controller) {
+  //   _mapController = controller;
+  //   _location = Location();
+  //   _getUserLocation();
+  // }
 
-  Future<void> _getUserLocation() async {
-    final currentLocation = await _location.getLocation();
+  // Future<void> _getUserLocation() async {
+  //   final currentLocation = await _location.getLocation();
 
-    initialPosition = LatLng(
-      currentLocation.latitude!,
-      currentLocation.longitude!,
-    );
+  //   initialPosition = LatLng(
+  //     currentLocation.latitude!,
+  //     currentLocation.longitude!,
+  //   );
 
-    await _mapController.moveCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          zoom: 16,
-          target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
-        ),
-      ),
-    );
-  }
+  //   await _mapController.moveCamera(
+  //     CameraUpdate.newCameraPosition(
+  //       CameraPosition(
+  //         zoom: 16,
+  //         target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _tapDialog() {
     return Column(
@@ -262,7 +259,7 @@ class _FieldMapViewState extends State<FieldMapView> {
     return GoogleMap(
       zoomGesturesEnabled: _panEnabled,
       mapToolbarEnabled: false,
-      onMapCreated: _onMapCreated,
+      // onMapCreated: _onMapCreated,
       mapType: MapType.satellite,
       onTap: _handleMapTap,
       initialCameraPosition: CameraPosition(

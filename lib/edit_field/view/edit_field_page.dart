@@ -17,20 +17,14 @@ class EditFieldPage extends StatelessWidget {
           fieldsRepository: context.read<FieldsRepository>(),
           initialField: initialField,
         )..add(EditFieldRequested()),
-        child: const EditFieldPage(),
+        child: const EditFieldView(),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<EditFieldBloc, EditFieldState>(
-      listenWhen: (previous, current) =>
-          previous.status != current.status &&
-          current.status == EditFieldStatus.success,
-      listener: (context, state) {},
-      child: const EditFieldView(),
-    );
+    return const EditFieldView();
   }
 }
 
@@ -39,88 +33,100 @@ class EditFieldView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<EditFieldBloc>().state;
     return Scaffold(
       appBar: AppBar(title: const Center(child: Text('Edit Field'))),
-      body: Padding(
-        padding: const EdgeInsets.all(12),
-        child: ListView(
-          children: [
-            Text(
-              'Field type',
-              style: GoogleFonts.openSans(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: state.cropTypes
-                  .map(
-                    (CropType cropType) => FilterChip(
-                      selected: state.cropTypeId == cropType.id,
-                      label: Text(cropType.name),
-                      onSelected: (_) {
-                        context.read<EditFieldBloc>().add(
-                              EditFieldCropTypeChanged(cropType.id),
-                            );
-                      },
-                    ),
-                  )
-                  .toList(),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Herbicide type',
-              style: GoogleFonts.openSans(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: state.herbicides
-                  .map(
-                    (Herbicide herbicideType) => FilterChip(
-                      selected: state.herbicideId == herbicideType.id,
-                      label: Text(herbicideType.name),
-                      onSelected: (_) {
-                        context
-                            .read<EditFieldBloc>()
-                            .add(EditFieldHerbicideChanged(herbicideType.id));
-                      },
-                    ),
-                  )
-                  .toList(),
-            ),
-            const SizedBox(height: 16),
-            Center(
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(
-                        MediaQuery.of(context).size.width * 0.6,
-                        40,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
-                    onPressed: () {
-                      context.read<EditFieldBloc>().add(EditFieldSubmitted());
-                    },
-                    child: const Text('Save Field'),
-                  ),
-                  const SizedBox(height: 8),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Cancel'),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
+      body: const Padding(
+        padding: EdgeInsets.all(12),
+        child: EditFieldDetails(),
       ),
+    );
+  }
+}
+
+class EditFieldDetails extends StatelessWidget {
+  const EditFieldDetails({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<EditFieldBloc>().state;
+    return ListView(
+      children: [
+        Text(
+          'Field type',
+          style: GoogleFonts.openSans(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: state.cropTypes
+              .map(
+                (CropType cropType) => FilterChip(
+                  selected: state.cropTypeId == cropType.id,
+                  label: Text(cropType.name),
+                  onSelected: (_) {
+                    context.read<EditFieldBloc>().add(
+                          EditFieldCropTypeChanged(cropType.id),
+                        );
+                  },
+                ),
+              )
+              .toList(),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Herbicide type',
+          style: GoogleFonts.openSans(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: state.herbicides
+              .map(
+                (Herbicide herbicideType) => FilterChip(
+                  selected: state.herbicideId == herbicideType.id,
+                  label: Text(herbicideType.name),
+                  onSelected: (_) {
+                    context
+                        .read<EditFieldBloc>()
+                        .add(EditFieldHerbicideChanged(herbicideType.id));
+                  },
+                ),
+              )
+              .toList(),
+        ),
+        const SizedBox(height: 16),
+        Center(
+          child: Column(
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(
+                    MediaQuery.of(context).size.width * 0.6,
+                    40,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  context.read<EditFieldBloc>().add(EditFieldSubmitted());
+                },
+                child: const Text('Save Field'),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancel'),
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 }

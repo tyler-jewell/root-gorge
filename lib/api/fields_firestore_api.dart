@@ -24,10 +24,12 @@ class FirestoreFieldsApi extends FieldsApi {
       FirebaseFirestore.instance.collection('herbicides');
 
   @override
-  Future<List<Field>> getFields() {
-    return fieldsCollection.get().then(
-          (snapshot) => snapshot.docs.map(Field.fromDocument).toList(),
-        );
+  Stream<List<Field>> getFields() {
+    return fieldsCollection.snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return Field.fromDocument(doc);
+      }).toList();
+    });
   }
 
   @override
@@ -42,7 +44,6 @@ class FirestoreFieldsApi extends FieldsApi {
 
   @override
   Future<void> updateField(Field field) async {
-    print(field.toJson());
     await fieldsCollection.doc(field.id).update(field.toJson());
   }
 
