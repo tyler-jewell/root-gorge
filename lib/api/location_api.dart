@@ -7,12 +7,8 @@ class LocationApi {
   /// {@macro fields_api}
   const LocationApi();
 
-  /// Provides a [Stream] of the current users [Position].
-  Stream<Position> getUserLocation() {
-    return Geolocator.getPositionStream(
-      locationSettings: const LocationSettings(
-        timeLimit: Duration(seconds: 3),
-      ),
-    );
+  /// Provides a [Future] of the current users [Position].
+  Future<Position> getUserLocation() {
+    return Geolocator.getCurrentPosition();
   }
 }

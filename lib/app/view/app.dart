@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:root_gorge/fields_overview/view/fields_overview_page.dart';
+
+import 'package:root_gorge/fields_overview/fields_overview.dart';
 import 'package:root_gorge/repository/fields_repository.dart';
+import 'package:root_gorge/repository/location_repository.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key, required this.fieldsRepository}) : super(key: key);
+  const App({
+    Key? key,
+    required this.locationRepository,
+    required this.fieldsRepository,
+  }) : super(key: key);
 
+  final LocationRepository locationRepository;
   final FieldsRepository fieldsRepository;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: fieldsRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(
+          value: locationRepository,
+        ),
+        RepositoryProvider.value(
+          value: fieldsRepository,
+        ),
+      ],
       child: const AppView(),
     );
   }

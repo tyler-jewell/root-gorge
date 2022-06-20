@@ -58,15 +58,9 @@ class FieldsRepository {
   /// {@macro fields_repository}
   const FieldsRepository({
     required FieldsApi fieldsApi,
-    required LocationApi locationApi,
-  })  : _fieldsApi = fieldsApi,
-        _locationApi = locationApi;
+  }) : _fieldsApi = fieldsApi;
 
   final FieldsApi _fieldsApi;
-  final LocationApi _locationApi;
-
-  /// Provides a [Stream] of users current [Position].
-  Stream<Position> getUserLocation() => _locationApi.getUserLocation();
 
   /// Provides a [Stream] of all fields.
   Stream<List<Field>> getFields() => _fieldsApi.getFields();

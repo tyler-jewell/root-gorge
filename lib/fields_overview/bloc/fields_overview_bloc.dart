@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:root_gorge/models/crop_type.dart';
 import 'package:root_gorge/models/field.dart';
 import 'package:root_gorge/models/herbicide.dart';
 import 'package:root_gorge/repository/fields_repository.dart';
+import 'package:root_gorge/repository/location_repository.dart';
 
 part 'fields_overview_event.dart';
 part 'fields_overview_state.dart';
@@ -13,27 +13,30 @@ class FieldsOverviewBloc
     extends Bloc<FieldsOverviewEvent, FieldsOverviewState> {
   FieldsOverviewBloc({
     required FieldsRepository fieldsRepository,
+    required LocationRepository locationRepository,
   })  : _fieldsRepository = fieldsRepository,
+        _locationRepository = locationRepository,
         super(const FieldsOverviewState()) {
     on<FieldSubscriptionRequested>(_onFieldSubscriptionRequested);
-    on<UserLocationRequested>(_onUserLocationRequested);
     on<EditFieldRequested>(_onEditFieldRequested);
     on<EditFieldSubmitted>(_onEditFieldSubmitted);
+    on<UserLocationRequested>(_onUserLocationRequested);
   }
 
   final FieldsRepository _fieldsRepository;
+  final LocationRepository _locationRepository;
 
   Future<void> _onUserLocationRequested(
     UserLocationRequested event,
     Emitter<FieldsOverviewState> emit,
   ) async {
-    await emit.forEach<Position>(
-      _fieldsRepository.getUserLocation(),
-      onData: (pos) => state.copyWith(
-        userLatitude: pos.latitude,
-        userLongitude: pos.longitude,
+    final userLocation = await _locationRepository.getUserLocation();
+
+    emit(
+      state.copyWith(
+        userLatitude: userLocation.latitude,
+        userLongitude: userLocation.longitude,
       ),
-      onError: (_, __) => state.copyWith(status: FieldsOverviewStatus.failure),
     );
   }
 
@@ -41,6 +44,7 @@ class FieldsOverviewBloc
     EditFieldRequested event,
     Emitter<FieldsOverviewState> emit,
   ) async {
+    print('requested');
     emit(state.copyWith(editingField: true));
   }
 

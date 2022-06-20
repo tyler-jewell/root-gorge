@@ -5,19 +5,20 @@ import 'package:root_gorge/api/location_api.dart';
 import 'package:root_gorge/app/app.dart';
 import 'package:root_gorge/firebase_options.dart';
 import 'package:root_gorge/repository/fields_repository.dart';
+import 'package:root_gorge/repository/location_repository.dart';
 
 Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final fieldsApi = FirestoreFieldsApi();
   const locationApi = LocationApi();
+  final fieldsApi = FirestoreFieldsApi();
 
-  final fieldsRepository = FieldsRepository(
-    fieldsApi: fieldsApi,
-    locationApi: locationApi,
+  runApp(
+    App(
+      locationRepository: const LocationRepository(locationApi: locationApi),
+      fieldsRepository: FieldsRepository(fieldsApi: fieldsApi),
+    ),
   );
-
-  runApp(App(fieldsRepository: fieldsRepository));
 }
