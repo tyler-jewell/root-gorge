@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:root_gorge/api/fields_api.dart';
 import 'package:root_gorge/models/field.dart';
 import 'package:root_gorge/models/herbicide.dart';
 
