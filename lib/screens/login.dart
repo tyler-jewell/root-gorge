@@ -10,6 +10,7 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
   TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController smsCodeController = TextEditingController();
   late ConfirmationResult confirmationResult;
 
@@ -19,7 +20,7 @@ class LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Phone Authentication'),
+        title: const Text('Login'),
       ),
       body: showAuthCode
           ? Padding(
@@ -38,8 +39,13 @@ class LoginState extends State<Login> {
                   const SizedBox(height: 15),
                   ElevatedButton(
                       child: const Text('Login'),
-                      onPressed: () {
-                        confirmationResult.confirm(smsCodeController.text);
+                      onPressed: () async {
+                        UserCredential result = await confirmationResult
+                            .confirm(smsCodeController.text);
+                        User? user = result.user;
+                        if (user != null) {
+                          user.updateDisplayName(nameController.text);
+                        }
                       }),
                 ],
               ),
@@ -52,9 +58,18 @@ class LoginState extends State<Login> {
                     controller: phoneNumberController,
                     decoration: const InputDecoration(
                       labelText: 'Phone number',
-                      helperText: 'Enter your phone number to login',
+                      helperText: 'Enter your phone number',
                     ),
                     keyboardType: TextInputType.phone,
+                  ),
+                  const SizedBox(height: 15),
+                  TextField(
+                    controller: nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Full name',
+                      helperText: 'Enter your full name',
+                    ),
+                    keyboardType: TextInputType.name,
                   ),
                   const SizedBox(height: 15),
                   ElevatedButton(

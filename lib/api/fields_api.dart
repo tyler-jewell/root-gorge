@@ -8,10 +8,7 @@ abstract class FieldsApi {
   const FieldsApi();
 
   /// Provides a [Stream] of all [Field]s.
-  Stream<List<Field>> getFields();
-
-  /// Updates the [field].
-  Future<void> updateField(Field field);
+  Future<List<Field>> getFields();
 
   /// Deletes the field with the given id.
   ///

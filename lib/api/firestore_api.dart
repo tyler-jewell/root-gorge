@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:root_gorge/api/fields_api.dart';
 import 'package:root_gorge/models/field.dart';
-import 'package:root_gorge/models/herbicide.dart';
 
 /// {@template firestore_api}
 /// A Flutter implementation of the [FieldsApi].
@@ -15,35 +14,11 @@ class FirestoreFieldsApi extends FieldsApi {
   /// Firestore Fields collection
   final fieldsCollection = FirebaseFirestore.instance.collection('fields');
 
-  /// Firestore CropTypes collection
-  final cropTypeCollection = FirebaseFirestore.instance.collection('cropTypes');
-
-  /// Firestore [Herbicide] collection
-  final herbicideCollection =
-      FirebaseFirestore.instance.collection('herbicides');
-
   @override
-  Stream<List<Field>> getFields() {
-    return fieldsCollection.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
-        return Field.fromDocument(doc);
-      }).toList();
-    });
-  }
+  Future<List<Field>> getFields() async {
+    final snapshots = await fieldsCollection.get();
 
-  @override
-  Future<List<CropType>> getCropTypes() => cropTypeCollection.get().then(
-        (snapshot) => snapshot.docs.map(CropType.fromDocument).toList(),
-      );
-
-  @override
-  Future<List<Herbicide>> getHerbicides() => herbicideCollection.get().then(
-        (snapshot) => snapshot.docs.map(Herbicide.fromDocument).toList(),
-      );
-
-  @override
-  Future<void> updateField(Field field) async {
-    await fieldsCollection.doc(field.id).update(field.toJson());
+    return snapshots.docs.map((e) => Field.fromDocument(e)).toList();
   }
 
   @override

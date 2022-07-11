@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:root_gorge/api/firestore_api.dart';
 import 'package:root_gorge/models/field.dart';
 import 'package:root_gorge/repositories/crops.dart';
 import 'package:root_gorge/repositories/herbicides.dart';
@@ -15,7 +16,9 @@ class Map extends StatefulWidget {
 
 class _MapState extends State<Map> {
   List<Marker> markers = <Marker>[];
-  bool showBottomSheet = false;
+  bool showAddFieldBottomSheet = false;
+  bool showEditFieldBottomSheet = false;
+  Field? selectedField;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(40.01755830492381, -89.04235593358224),
@@ -24,7 +27,7 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    // _getMarkers();
+    _getMarkers();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Field Marker'),
@@ -39,17 +42,17 @@ class _MapState extends State<Map> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: showBottomSheet
+      floatingActionButton: showAddFieldBottomSheet || showEditFieldBottomSheet
           ? null
           : FloatingActionButton(
               child: const Icon(Icons.add),
               onPressed: () {
                 setState(() {
-                  showBottomSheet = true;
+                  showAddFieldBottomSheet = true;
                 });
               },
             ),
-      bottomSheet: showBottomSheet
+      bottomSheet: showAddFieldBottomSheet
           ? Container(
               height: 100,
               width: double.infinity,
@@ -61,20 +64,53 @@ class _MapState extends State<Map> {
                 ),
               ),
             )
-          : null,
+          : showEditFieldBottomSheet
+              ? Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20)),
+                  ),
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Field Details',
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                      const SizedBox(height: 5),
+                      Text('Crop type: ${selectedField?.crop}'),
+                      const SizedBox(height: 5),
+                      Text('Herbicide type: ${selectedField?.herbicide}'),
+                      const SizedBox(height: 5),
+                      Text('Phone number: ${selectedField?.phoneNumber}'),
+                      const SizedBox(height: 5),
+                      Text('Name: ${selectedField?.name}'),
+                    ],
+                  ),
+                )
+              : null,
       body: Stack(
         children: [
           GoogleMap(
             mapType: MapType.satellite,
             initialCameraPosition: _kGooglePlex,
-            onTap: showBottomSheet
+            onTap: showAddFieldBottomSheet
                 ? (latLng) {
                     _addMarker(latLng);
                     setState(() {
-                      showBottomSheet = false;
+                      showAddFieldBottomSheet = false;
                     });
                   }
-                : null,
+                : (latLng) {
+                    setState(() {
+                      showEditFieldBottomSheet = false;
+                    });
+                  },
             markers: Set<Marker>.of(markers),
           ),
         ],
@@ -83,29 +119,14 @@ class _MapState extends State<Map> {
   }
 
   _getMarkers() async {
-    final collection = FirebaseFirestore.instance.collection('fields');
-
-    final query = await collection.get();
-
-    final fields = query.docs.map((doc) {
-      final data = doc.data();
-      return Field(
-        userId: doc.id,
-        latitude: data['latitude'] as double,
-        longitude: data['longitude'] as double,
-        crop: data['crop'] as String,
-        herbicide: data['herbicide'] as String,
-      );
-    }).toList();
-
-    print(fields);
+    final fields = await FirestoreFieldsApi().getFields();
 
     List<Marker> fieldMarkers = [];
 
-    fields.forEach((field) async {
+    for (var field in fields) {
       final marker = await _buildMarkerFromField(field);
       fieldMarkers.add(marker);
-    });
+    }
 
     setState(() {
       markers = fieldMarkers;
@@ -114,17 +135,18 @@ class _MapState extends State<Map> {
 
   Future<Marker> _buildMarkerFromField(Field field) async {
     return Marker(
-      markerId: MarkerId(field.latitude.toString()),
-      position: LatLng(field.latitude, field.longitude),
-      infoWindow: InfoWindow(
-        title: '${field.crop} field',
-        snippet: 'This is a ${field.crop} field',
-      ),
-      icon: await _getBitmap(
-        cropType: field.crop,
-        herbicideType: field.herbicide,
-      ),
-    );
+        markerId: MarkerId(field.latitude.toString()),
+        position: LatLng(field.latitude, field.longitude),
+        icon: await _getBitmap(
+          cropType: field.crop,
+          herbicideType: field.herbicide,
+        ),
+        onTap: () {
+          setState(() {
+            showEditFieldBottomSheet = true;
+            selectedField = field;
+          });
+        });
   }
 
   _getBitmap({
@@ -209,12 +231,17 @@ class _MapState extends State<Map> {
           );
         });
 
+    final phoneNumber = FirebaseAuth.instance.currentUser?.phoneNumber;
+    final name = FirebaseAuth.instance.currentUser?.displayName;
+
     final field = Field(
       userId: FirebaseAuth.instance.currentUser!.uid,
       latitude: latLng.latitude,
       longitude: latLng.longitude,
       crop: cropType!,
       herbicide: herbicideType!,
+      phoneNumber: phoneNumber,
+      name: name,
     );
 
     FirebaseFirestore.instance.collection('fields').add(field.toJson());

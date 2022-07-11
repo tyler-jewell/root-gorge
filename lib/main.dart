@@ -35,6 +35,8 @@ class _MyAppState extends State<MyApp> {
       title: 'Field Marker',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        bottomSheetTheme:
+            const BottomSheetThemeData(backgroundColor: Colors.transparent),
       ),
       home: isSignedIn ? const Map() : const Login(),
     );
