@@ -13,9 +13,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_maps_flutter_web: ^0.4.0
   google_maps_flutter: ^2.1.8
-  firebase_auth: ^3.3.20
-  firebase_core: ^1.18.0
   cloud_firestore: ^3.1.18
+  authentication_repository:
+    git:
+      url: https://github.com/tyler-jewell/authentication_repository.git
+      ref: main
+  flutter_bloc: ^8.0.1
+  flow_builder: ^0.0.9
+  very_good_analysis: ^2.4.0
 
 dev_dependencies:
   flutter_test:
