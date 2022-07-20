@@ -1,16 +1,16 @@
 {
     "folders": [
         {
-            "path": "../.."
+            "path": "."
         },
         {
-            "path": "../../../bloc"
+            "path": "../bloc"
         },
         {
-            "path": "../../../cache"
+            "path": "../authentication_repository"
         },
         {
-            "path": "../../../root_gorge"
+            "path": "../cache"
         }
     ]
 }
