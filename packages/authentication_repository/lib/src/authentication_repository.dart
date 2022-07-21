@@ -266,7 +266,7 @@ class AuthenticationRepository {
     }
   }
 
-    /// Creates a new user with the provided [phoneNumber].
+  /// Creates a new user with the provided [phoneNumber].
   ///
   /// Throws a [SignInWithPhoneNumberFailure] if an exception occurs.
   Future<void> signInWithPhoneNumber(
@@ -278,12 +278,10 @@ class AuthenticationRepository {
       );
     } on firebase_auth.FirebaseAuthException catch (e) {
       final error = 'SignInWithPhoneNumberFailure: ${e.toString()}';
-      throw  SignInWithPhoneNumberFailure(error);
-    } catch (e, s) {
-      print(e);
-      print(s);
+      throw SignInWithPhoneNumberFailure(error);
+    } catch (e) {
       final error = 'SignInWithPhoneNumberFailure: ${e.toString()}';
-      throw  SignInWithPhoneNumberFailure(error);
+      throw SignInWithPhoneNumberFailure(error);
     }
   }
 
@@ -296,9 +294,9 @@ class AuthenticationRepository {
     try {
       await confirmationResult.confirm(smsCode);
     } on firebase_auth.FirebaseAuthException catch (e) {
-      throw  ConfirmResultFailure(e.toString());
+      throw ConfirmResultFailure(e.toString());
     } catch (e) {
-      throw  ConfirmResultFailure(e.toString());
+      throw ConfirmResultFailure(e.toString());
     }
   }
 

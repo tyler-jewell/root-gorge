@@ -11,8 +11,8 @@ dependencies:
   cache:
     path: ../../packages/cache
   equatable: ^2.0.3
-  firebase_auth: ^3.0.2
-  firebase_core: ^1.19.2
+  firebase_auth: ^3.5.0
+  firebase_core: ^1.20.0
   flutter:
     sdk: flutter
   google_sign_in: ^5.4.0
