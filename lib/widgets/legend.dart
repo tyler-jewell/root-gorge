@@ -11,7 +11,7 @@ class Legend extends StatelessWidget {
       height: 150,
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Column(
           children: [
             const Text(
@@ -27,7 +27,7 @@ class Legend extends StatelessWidget {
                     .map((herbicide) => _buildLegendRow(
                           herbicideType: herbicide.name,
                           color: herbicide.color,
-                        ))
+                        ),)
                     .toList(),
               ),
             ),
@@ -40,7 +40,6 @@ class Legend extends StatelessWidget {
 
 Row _buildLegendRow({required String herbicideType, required Color color}) {
   return Row(
-    mainAxisAlignment: MainAxisAlignment.start,
     children: [
       const SizedBox(width: 10),
       Container(

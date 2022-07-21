@@ -12,7 +12,7 @@ class FieldsRepository {
 
   final FieldsApi _fieldsApi;
 
-  /// Provides a [Future] of all [Fields]s.
+  /// Provides a [Future] of all [Field]s.
   Future<List<Field>> getFields() => _fieldsApi.getFields();
 
   /// Saves a [field].

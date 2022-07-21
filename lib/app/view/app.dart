@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:root_gorge/app/app.dart';
 import 'package:root_gorge/app/routes/routes.dart';
-import 'package:root_gorge/login/login.dart';
 
 class App extends StatelessWidget {
   const App({
