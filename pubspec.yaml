@@ -9,9 +9,7 @@ environment:
 
 dependencies:
   authentication_repository:
-    git:
-      url: https://github.com/tyler-jewell/authentication_repository.git
-      ref: main
+    path: packages/authentication_repository
   cloud_firestore: ^3.1.18
   cupertino_icons: ^1.0.2
   flow_builder: ^0.0.9

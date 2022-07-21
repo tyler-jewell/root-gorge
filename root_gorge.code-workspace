@@ -5,12 +5,6 @@
         },
         {
             "path": "../bloc"
-        },
-        {
-            "path": "../authentication_repository"
-        },
-        {
-            "path": "../cache"
         }
     ]
 }

@@ -32,11 +32,9 @@ packages:
   authentication_repository:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: "45b53a04f87b5785ef1d36e39442854f2ca6440e"
-      url: "https://github.com/tyler-jewell/authentication_repository.git"
-    source: git
+      path: "packages/authentication_repository"
+      relative: true
+    source: path
     version: "0.0.1"
   bloc:
     dependency: transitive
@@ -55,11 +53,9 @@ packages:
   cache:
     dependency: transitive
     description:
-      path: "."
-      ref: main
-      resolved-ref: "408b783868054342fb44cc6293296137faabaf8e"
-      url: "https://github.com/tyler-jewell/cache.git"
-    source: git
+      path: "packages/cache"
+      relative: true
+    source: path
     version: "0.0.1"
   characters:
     dependency: transitive
@@ -172,7 +168,7 @@ packages:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "3.4.2"
   firebase_auth_platform_interface:
     dependency: transitive
     description:
@@ -186,14 +182,14 @@ packages:
       name: firebase_auth_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.19"
+    version: "4.0.0"
   firebase_core:
     dependency: transitive
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.13.1"
+    version: "1.19.2"
   firebase_core_platform_interface:
     dependency: transitive
     description:
