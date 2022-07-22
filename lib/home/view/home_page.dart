@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:root_gorge/app/app.dart';
+import 'package:root_gorge/home/home.dart';
+import 'package:root_gorge/repositories/fields/fields.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,7 +22,12 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(child: Text('Home')),
+      body: BlocProvider(
+        create: (context) => HomeBloc(
+          fieldsRepository: context.read<FieldsRepository>(),
+        )..add(const FieldsRequested()),
+        child: const MapWidget(),
+      ),
     );
   }
 }

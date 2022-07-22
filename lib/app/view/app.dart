@@ -4,20 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:root_gorge/app/app.dart';
 import 'package:root_gorge/app/routes/routes.dart';
+import 'package:root_gorge/repositories/fields/fields.dart';
 
 class App extends StatelessWidget {
   const App({
     Key? key,
     required AuthenticationRepository authenticationRepository,
+    required FieldsRepository fieldsRepository,
   })  : _authenticationRepository = authenticationRepository,
+        _fieldsRepository = fieldsRepository,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
+  final FieldsRepository _fieldsRepository;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _authenticationRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(
+          value: _authenticationRepository,
+        ),
+        RepositoryProvider.value(
+          value: _fieldsRepository,
+        ),
+      ],
       child: BlocProvider(
         create: (_) => AppBloc(
           authenticationRepository: _authenticationRepository,

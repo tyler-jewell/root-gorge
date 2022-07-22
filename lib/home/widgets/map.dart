@@ -15,14 +15,10 @@ class MapWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        return Stack(
-          children: [
-            GoogleMap(
-              mapType: MapType.satellite,
-              initialCameraPosition: _kGooglePlex,
-              markers: Set<Marker>.of(state.markers),
-            ),
-          ],
+        return GoogleMap(
+          mapType: MapType.satellite,
+          initialCameraPosition: _kGooglePlex,
+          markers: state.fields,
         );
       },
     );

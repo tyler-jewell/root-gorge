@@ -272,10 +272,15 @@ class AuthenticationRepository {
   Future<void> signInWithPhoneNumber(
     String phoneNumber,
   ) async {
+    final verifier = firebase_auth.RecaptchaVerifier(
+      auth: FirebaseAuthPlatform.instance,
+    );
     try {
       confirmationResult = await _firebaseAuth.signInWithPhoneNumber(
         phoneNumber,
+        verifier,
       );
+      verifier.clear();
     } on firebase_auth.FirebaseAuthException catch (e) {
       final error = 'SignInWithPhoneNumberFailure: ${e.toString()}';
       throw SignInWithPhoneNumberFailure(error);
