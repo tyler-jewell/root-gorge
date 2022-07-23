@@ -8,8 +8,10 @@ abstract class HomeEvent extends Equatable {
 }
 
 class FieldsRequested extends HomeEvent {
-  const FieldsRequested();
+  const FieldsRequested({required this.devicePixelRatio});
+
+  final double devicePixelRatio;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [devicePixelRatio];
 }

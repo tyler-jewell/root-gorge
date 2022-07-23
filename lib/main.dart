@@ -13,6 +13,7 @@ void main() async {
   );
   final authenticationRepository = AuthenticationRepository();
   final fieldsRepository = FieldsRepository(fieldsApi: FirestoreFieldsApi());
+
   await authenticationRepository.user.first;
   runApp(
     App(

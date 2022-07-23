@@ -11,6 +11,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
@@ -25,7 +26,9 @@ class HomePage extends StatelessWidget {
       body: BlocProvider(
         create: (context) => HomeBloc(
           fieldsRepository: context.read<FieldsRepository>(),
-        )..add(const FieldsRequested()),
+        )..add(
+            FieldsRequested(devicePixelRatio: devicePixelRatio),
+          ),
         child: const MapWidget(),
       ),
     );
