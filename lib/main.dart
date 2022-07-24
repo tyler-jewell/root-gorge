@@ -11,6 +11,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   final authenticationRepository = AuthenticationRepository();
   final fieldsRepository = FieldsRepository(fieldsApi: FirestoreFieldsApi());
 
