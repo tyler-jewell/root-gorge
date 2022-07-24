@@ -30,8 +30,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     final markers = <Marker>[];
 
-    print(event.devicePixelRatio);
-
     for (final field in fields) {
       final icon = await localRepository.getBitmap(
         cropType: field.crop,
