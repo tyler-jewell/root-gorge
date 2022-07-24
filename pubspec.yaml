@@ -1,0 +1,51 @@
+name: root_gorge
+description: An App to track herbicide usage on crops
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+  flutter: 3.0.4
+
+dependencies:
+  authentication_repository:
+    path: packages/authentication_repository
+  bloc: ^8.0.3
+  cloud_firestore: ^3.4.0
+  equatable: ^2.0.3
+  flow_builder: ^0.0.9
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.0.1
+  flutter_localizations:
+    sdk: flutter
+  google_maps_flutter: ^2.1.9
+  google_maps_flutter_web: ^0.4.0+1
+
+dev_dependencies:
+  bloc_test: ^9.0.3
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  very_good_analysis: ^3.0.1
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/markers/corn-dicamba.png
+    - assets/markers/corn-enlist.png
+    - assets/markers/corn-roundup.png
+    - assets/markers/corn-non-gmo.png
+    - assets/markers/corn-organic.png
+    - assets/markers/soybean-dicamba.png
+    - assets/markers/soybean-enlist.png
+    - assets/markers/soybean-roundup.png
+    - assets/markers/soybean-non-gmo.png
+    - assets/markers/soybean-organic.png
+    - assets/markers/wheat-dicamba.png
+    - assets/markers/wheat-enlist.png
+    - assets/markers/wheat-roundup.png
+    - assets/markers/wheat-non-gmo.png
+    - assets/markers/wheat-organic.png
