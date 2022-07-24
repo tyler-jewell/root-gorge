@@ -1,4 +1,4 @@
-import 'package:root_gorge/models/crop.dart';
+import 'package:root_gorge/repositories/fields/models/crop.dart';
 
 List<Crop> getCropTypes() {
   return [
