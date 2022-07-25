@@ -6,7 +6,6 @@ import 'package:root_gorge/home/home.dart';
 class MapWidget extends StatelessWidget {
   const MapWidget({super.key});
 
-  // TODO: Add to bloc state
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(40.01755830492381, -89.04235593358224),
     zoom: 14.4746,

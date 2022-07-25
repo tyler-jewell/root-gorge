@@ -10,7 +10,6 @@ class LocalRepository {
     return BitmapDescriptor.fromAssetImage(
       ImageConfiguration(
         devicePixelRatio: devicePixelRatio,
-        // TODO: make this dynamic
         size: const Size(50, 50),
       ),
       getBitmapKey(

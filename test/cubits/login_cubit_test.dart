@@ -7,7 +7,7 @@ class MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
 
 void main() {
-  const validPhoneNumber = '2178551977';
+  // const validPhoneNumber = '2178551977';
 
   group('LoginCubit', () {
     late AuthenticationRepository authenticationRepository;
