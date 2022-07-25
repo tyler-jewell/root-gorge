@@ -21,21 +21,21 @@ class LoginForm extends StatelessWidget {
         }
       },
       child: BlocBuilder<LoginCubit, LoginState>(
-        builder: (context, state) => state.status == LoginStatus.inProgress
+        builder: (context, state) => state.authCodeSent
             ? Column(
-                children: [
-                  PhoneNumberField(),
-                  const SizedBox(height: 15),
-                  FullNameField(),
-                  const SizedBox(height: 15),
-                  _AuthButton(),
+                children: const [
+                  SMSCodeField(),
+                  SizedBox(height: 15),
+                  LoginButton(),
                 ],
               )
             : Column(
-                children: [
-                  _SMSCodeField(),
-                  const SizedBox(height: 15),
-                  _AuthButton(),
+                children: const [
+                  PhoneNumberField(),
+                  SizedBox(height: 15),
+                  FullNameField(),
+                  SizedBox(height: 15),
+                  SendAuthButton(),
                 ],
               ),
       ),

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:root_gorge/login/login.dart';
 
-class _PhoneNumberField extends StatelessWidget {
+class PhoneNumberField extends StatelessWidget {
+  const PhoneNumberField({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(

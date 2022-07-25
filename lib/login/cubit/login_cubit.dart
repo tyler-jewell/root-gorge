@@ -44,9 +44,12 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> logInWithPhoneNumber() async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      await _authenticationRepository
-          .signInWithPhoneNumber('+1${state.phoneNumber}');
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      await _authenticationRepository.signInWithPhoneNumber(
+        '+1${state.phoneNumber.value}',
+      );
+      emit(
+        state.copyWith(authCodeSent: true),
+      );
     } on SignInWithPhoneNumberFailure catch (e) {
       emit(
         state.copyWith(
@@ -66,9 +69,10 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> logInWithSMSCode() async {
     try {
+      emit(state.copyWith(status: FormzStatus.submissionInProgress));
       await _authenticationRepository.confirmPhoneAuth(state.smsCode.value);
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
-    } on SignInWithPhoneNumberFailure catch (e) {
+    } on ConfirmResultFailure catch (e) {
       emit(
         state.copyWith(
           errorMessage: e.message,

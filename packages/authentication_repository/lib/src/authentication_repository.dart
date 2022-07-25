@@ -18,6 +18,17 @@ class SignInWithPhoneNumberFailure implements Exception {
     this.message = 'An unknown exception occurred.',
   ]);
 
+  factory SignInWithPhoneNumberFailure.fromCode(String code) {
+    switch (code) {
+      case 'invalid-phone-number':
+        return const SignInWithPhoneNumberFailure(
+          'Phone number is invalid!',
+        );
+      default:
+        return const SignInWithPhoneNumberFailure();
+    }
+  }
+
   /// The associated error message.
   final String message;
 }
@@ -30,6 +41,17 @@ class ConfirmResultFailure implements Exception {
   const ConfirmResultFailure([
     this.message = 'An unknown exception occurred.',
   ]);
+
+  factory ConfirmResultFailure.fromCode(String code) {
+    switch (code) {
+      case 'invalid-verification-code':
+        return const ConfirmResultFailure(
+          'Verification code invalid!',
+        );
+      default:
+        return const ConfirmResultFailure();
+    }
+  }
 
   /// The associated error message.
   final String message;
@@ -87,8 +109,7 @@ class AuthenticationRepository {
       );
       verifier.clear();
     } on firebase_auth.FirebaseAuthException catch (e) {
-      final error = 'SignInWithPhoneNumberFailure: ${e.toString()}';
-      throw SignInWithPhoneNumberFailure(error);
+      throw SignInWithPhoneNumberFailure.fromCode(e.code);
     } catch (e) {
       final error = 'SignInWithPhoneNumberFailure: ${e.toString()}';
       throw SignInWithPhoneNumberFailure(error);
@@ -98,13 +119,12 @@ class AuthenticationRepository {
   /// Confirm result of authentication with [smsCode].
   ///
   /// Throws a [ConfirmResultFailure] if an exception occurs.
-  Future<void> confirmPhoneAuth(
-    String smsCode,
-  ) async {
+  Future<void> confirmPhoneAuth(String smsCode) async {
     try {
       await confirmationResult.confirm(smsCode);
     } on firebase_auth.FirebaseAuthException catch (e) {
-      throw ConfirmResultFailure(e.toString());
+      print(e.toString());
+      throw ConfirmResultFailure.fromCode(e.code);
     } catch (e) {
       throw ConfirmResultFailure(e.toString());
     }

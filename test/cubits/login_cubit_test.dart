@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:form_inputs/form_inputs.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:root_gorge/login/login.dart';
 
@@ -26,7 +27,9 @@ void main() {
         'emits [valid]] when phone number is valid',
         build: () => LoginCubit(authenticationRepository),
         act: (cubit) => cubit.phoneNumberChanged('2178551977'),
-        expect: () => const <LoginState>[LoginState(phoneNumber: '2178551977')],
+        expect: () => const <LoginState>[
+          LoginState(phoneNumber: PhoneNumber.dirty('2178551977'))
+        ],
       );
     });
   });

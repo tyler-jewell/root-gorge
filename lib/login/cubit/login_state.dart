@@ -5,6 +5,7 @@ class LoginState extends Equatable {
     this.phoneNumber = const PhoneNumber.pure(),
     this.fullName = const FullName.pure(),
     this.smsCode = const SMSCode.pure(),
+    this.authCodeSent = false,
     this.status = FormzStatus.pure,
     this.errorMessage = '',
   });
@@ -14,6 +15,7 @@ class LoginState extends Equatable {
   final FormzStatus status;
   final String errorMessage;
   final SMSCode smsCode;
+  final bool authCodeSent;
 
   @override
   List<Object> get props => [
@@ -22,6 +24,7 @@ class LoginState extends Equatable {
         errorMessage,
         status,
         smsCode,
+        authCodeSent,
       ];
 
   LoginState copyWith({
@@ -30,6 +33,7 @@ class LoginState extends Equatable {
     FormzStatus? status,
     String? errorMessage,
     SMSCode? smsCode,
+    bool? authCodeSent,
   }) {
     return LoginState(
       phoneNumber: phoneNumber ?? this.phoneNumber,
@@ -37,6 +41,7 @@ class LoginState extends Equatable {
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       smsCode: smsCode ?? this.smsCode,
+      authCodeSent: authCodeSent ?? this.authCodeSent,
     );
   }
 }
