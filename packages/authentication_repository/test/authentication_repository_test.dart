@@ -72,7 +72,9 @@ void main() {
       });
 
       test('calls signInWithPhoneNumber', () async {
-        await authenticationRepository.signInWithPhoneNumber(phoneNumber);
+        await authenticationRepository.signInWithPhoneNumber(
+          phoneNumber: phoneNumber,
+        );
         verify(
           () => firebaseAuth.signInWithPhoneNumber(phoneNumber),
         ).called(1);
@@ -80,7 +82,9 @@ void main() {
 
       test('succeeds when createUserWithEmailAndPassword succeeds', () async {
         expect(
-          authenticationRepository.signInWithPhoneNumber(phoneNumber),
+          authenticationRepository.signInWithPhoneNumber(
+            phoneNumber: phoneNumber,
+          ),
           completes,
         );
       });
@@ -92,7 +96,9 @@ void main() {
           () => firebaseAuth.signInWithPhoneNumber(any()),
         ).thenThrow(Exception());
         expect(
-          authenticationRepository.signInWithPhoneNumber(phoneNumber),
+          authenticationRepository.signInWithPhoneNumber(
+            phoneNumber: phoneNumber,
+          ),
           throwsA(isA<SignInWithPhoneNumberFailure>()),
         );
       });
