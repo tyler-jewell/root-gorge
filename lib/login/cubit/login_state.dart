@@ -7,13 +7,13 @@ class LoginState extends Equatable {
     this.smsCode = const SMSCode.pure(),
     this.authCodeSent = false,
     this.status = FormzStatus.pure,
-    this.errorMessage = '',
+    this.errorMessage,
   });
 
   final PhoneNumber phoneNumber;
   final FullName fullName;
   final FormzStatus status;
-  final String errorMessage;
+  final String? errorMessage;
   final SMSCode smsCode;
   final bool authCodeSent;
 
@@ -21,7 +21,6 @@ class LoginState extends Equatable {
   List<Object> get props => [
         phoneNumber,
         fullName,
-        errorMessage,
         status,
         smsCode,
         authCodeSent,
