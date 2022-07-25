@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -96,9 +97,9 @@ class AuthenticationRepository {
   /// Creates a new user with the provided [phoneNumber].
   ///
   /// Throws a [SignInWithPhoneNumberFailure] if an exception occurs.
-  Future<void> signInWithPhoneNumber(
-    String phoneNumber,
-  ) async {
+  Future<void> signInWithPhoneNumber({
+    required String phoneNumber,
+  }) async {
     final verifier = firebase_auth.RecaptchaVerifier(
       auth: FirebaseAuthPlatform.instance,
     );
@@ -119,13 +120,14 @@ class AuthenticationRepository {
   /// Confirm result of authentication with [smsCode].
   ///
   /// Throws a [ConfirmResultFailure] if an exception occurs.
-  Future<void> confirmPhoneAuth(String smsCode) async {
+  Future<void> confirmPhoneAuth({required String smsCode}) async {
     try {
       await confirmationResult.confirm(smsCode);
     } on firebase_auth.FirebaseAuthException catch (e) {
-      print(e.toString());
+      log('firebase_error');
       throw ConfirmResultFailure.fromCode(e.code);
     } catch (e) {
+      log('other error');
       throw ConfirmResultFailure(e.toString());
     }
   }
