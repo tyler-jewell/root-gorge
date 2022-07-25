@@ -19,7 +19,8 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
-  formz: ^0.4.1
+  form_inputs:
+    path: packages/form_inputs
   google_maps_flutter: ^2.1.9
   google_maps_flutter_web: ^0.4.0+1
 

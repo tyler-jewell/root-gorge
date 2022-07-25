@@ -1,42 +1,35 @@
 part of 'login_cubit.dart';
 
-enum LoginStatus {
-  inProgress,
-  gettingSMSCode,
-  failure,
-  completed,
-}
-
 class LoginState extends Equatable {
   const LoginState({
-    this.phoneNumber = const phoneNumber.pure(),
-    this.fullName = '',
-    this.smsCode = '',
-    this.status = LoginStatus.inProgress,
+    this.phoneNumber = const PhoneNumber.pure(),
+    this.fullName = const FullName.pure(),
+    this.smsCode = const SMSCode.pure(),
+    this.status = FormzStatus.pure,
     this.errorMessage = '',
   });
 
-  final String phoneNumber;
-  final String fullName;
-  final LoginStatus status;
+  final PhoneNumber phoneNumber;
+  final FullName fullName;
+  final FormzStatus status;
   final String errorMessage;
-  final String smsCode;
+  final SMSCode smsCode;
 
   @override
   List<Object> get props => [
         phoneNumber,
         fullName,
-        status,
         errorMessage,
+        status,
         smsCode,
       ];
 
   LoginState copyWith({
-    String? phoneNumber,
-    String? fullName,
-    LoginStatus? status,
+    PhoneNumber? phoneNumber,
+    FullName? fullName,
+    FormzStatus? status,
     String? errorMessage,
-    String? smsCode,
+    SMSCode? smsCode,
   }) {
     return LoginState(
       phoneNumber: phoneNumber ?? this.phoneNumber,
