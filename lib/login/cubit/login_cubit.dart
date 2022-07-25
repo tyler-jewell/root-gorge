@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:formz/formz.dart';
 
 part 'login_state.dart';
 
@@ -10,6 +11,7 @@ class LoginCubit extends Cubit<LoginState> {
   final AuthenticationRepository _authenticationRepository;
 
   void phoneNumberChanged(String value) {
+    final phoneNumber = PhoneNumber.dirty(value);
     emit(state.copyWith(phoneNumber: value));
   }
 

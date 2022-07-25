@@ -9,7 +9,7 @@ enum LoginStatus {
 
 class LoginState extends Equatable {
   const LoginState({
-    this.phoneNumber = '',
+    this.phoneNumber = const phoneNumber.pure(),
     this.fullName = '',
     this.smsCode = '',
     this.status = LoginStatus.inProgress,
